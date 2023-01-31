@@ -1,1 +1,14 @@
-{"Content-Type": "application/json"}
+{"points":
+		[
+			{
+            		"type": "walking",
+                  	"x": 82.93057,
+                  	"y": 54.943207
+             	},
+             	{
+                  	"type": "walking",
+                  	"x": 82.945039,
+                  	"y": 55.033879
+             	}
+             ]
+}
