@@ -1,0 +1,9 @@
+<RCC>
+  <qresource prefix="icons">
+    <file>back.jpg</file>
+    <file>ico.ico</file>
+    <file>point.png</file>
+    <file>point1.png</file>
+    <file>b.jpg</file>
+  </qresource>
+</RCC>
