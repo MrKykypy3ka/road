@@ -1,22 +1,25 @@
 from PyQt5 import uic, QtWidgets, QtCore, QtGui
-from forms.main_form import Ui_Dialog
+from forms.main_form import Ui_mainForm
 from PyQt5.QtGui import QPixmap
+import sys
+from forms.UiA import UiA
 
 Form, Window = uic.loadUiType("forms/main_form.ui")
 
 
 class UiM(QtWidgets.QDialog, Form):
-    def __init__(self):
-        super(UiM, self).__init__()
-        self.uim = Ui_Dialog()
+    def __init__(self, parent=None):
+        super(UiM, self).__init__(parent)
+        self.uim = Ui_mainForm()
         self.uim.setupUi(self)
         self.initUI()
         self.setWindowFlags(QtCore.Qt.WindowCloseButtonHint)
         self.setFixedSize(self.width(), self.height())
+        self.addForm = UiA(self)
 
 
-    def buttonPresed(self):
-        print("ХУЙ")
+    def buttonPresed2(self):
+        self.addForm.show()
 
     def initUI(self):
-        self.uim.pushButton.clicked.connect(self.buttonPresed)
+        self.uim.pushButton_2.clicked.connect(self.buttonPresed2)
