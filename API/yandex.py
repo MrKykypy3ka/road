@@ -6,7 +6,7 @@ from PIL import Image, ImageDraw
 
 def get_map(longitude, latitude):
     name = 'data\map.png'
-    link = f'https://static-maps.yandex.ru/1.x/?ll={longitude},{latitude}&size={649},{449}&spn={0.005},{0.005}&l=map,trf'
+    link = f'https://static-maps.yandex.ru/1.x/?ll={longitude},{latitude}&size={649},{255}&spn={0.005},{0.005}&l=map,trf'
     question = requests.get(url=link, stream=True)
     with open(name, 'wb') as out_file:
         shutil.copyfileobj(question.raw, out_file)

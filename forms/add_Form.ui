@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>671</width>
-    <height>811</height>
+    <height>620</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -264,7 +264,7 @@
      <x>10</x>
      <y>350</y>
      <width>649</width>
-     <height>449</height>
+     <height>256</height>
     </rect>
    </property>
    <property name="text">
@@ -322,6 +322,30 @@
      <width>141</width>
      <height>211</height>
     </rect>
+   </property>
+  </widget>
+  <widget class="QLabel" name="coor">
+   <property name="geometry">
+    <rect>
+     <x>520</x>
+     <y>280</y>
+     <width>71</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>&lt;html&gt;
+&lt;body&gt;
+  &lt;style&gt;
+   p {
+    margin-top: 0.1em; /* Отступ сверху */
+    margin-bottom: 0.1em; /* Отступ снизу */
+   }
+  &lt;/style&gt;
+&lt;p&gt;Долгота&lt;/p&gt;
+&lt;p&gt;Широта&lt;/p&gt;
+&lt;/body&gt;
+&lt;/html&gt;</string>
    </property>
   </widget>
  </widget>

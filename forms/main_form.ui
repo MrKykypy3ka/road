@@ -240,7 +240,7 @@
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">background-image:url(:/icons/back.jpg);
+    <string notr="true">background-image:url(:/icons/b.jpg);
 </string>
    </property>
    <property name="text">
