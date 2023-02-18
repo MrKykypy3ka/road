@@ -6,88 +6,58 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1074</width>
-    <height>471</height>
+    <width>671</width>
+    <height>811</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Добавить данные</string>
   </property>
-  <widget class="QListView" name="listView">
+  <widget class="QPushButton" name="addTimeButton">
+   <property name="geometry">
+    <rect>
+     <x>520</x>
+     <y>320</y>
+     <width>141</width>
+     <height>23</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Добавить время</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="addRoadButton">
+   <property name="geometry">
+    <rect>
+     <x>180</x>
+     <y>320</y>
+     <width>161</width>
+     <height>23</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Добавить объезд</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="addCrossroadButton">
+   <property name="geometry">
+    <rect>
+     <x>350</x>
+     <y>320</y>
+     <width>161</width>
+     <height>23</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Добавить перекрёсток</string>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="latitudeBad">
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>110</y>
-     <width>121</width>
-     <height>192</height>
-    </rect>
-   </property>
-  </widget>
-  <widget class="QPushButton" name="pushButton">
-   <property name="geometry">
-    <rect>
-     <x>10</x>
-     <y>400</y>
-     <width>121</width>
-     <height>23</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>Добавить время</string>
-   </property>
-  </widget>
-  <widget class="QPushButton" name="pushButton_2">
-   <property name="geometry">
-    <rect>
-     <x>140</x>
-     <y>400</y>
-     <width>121</width>
-     <height>23</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>Добавить время</string>
-   </property>
-  </widget>
-  <widget class="QListView" name="listView_2">
-   <property name="geometry">
-    <rect>
-     <x>140</x>
-     <y>110</y>
-     <width>121</width>
-     <height>192</height>
-    </rect>
-   </property>
-  </widget>
-  <widget class="QPushButton" name="pushButton_3">
-   <property name="geometry">
-    <rect>
-     <x>270</x>
-     <y>400</y>
-     <width>121</width>
-     <height>23</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>Добавить время</string>
-   </property>
-  </widget>
-  <widget class="QListView" name="listView_3">
-   <property name="geometry">
-    <rect>
-     <x>270</x>
-     <y>110</y>
-     <width>121</width>
-     <height>192</height>
-    </rect>
-   </property>
-  </widget>
-  <widget class="QLineEdit" name="latitude_bad">
-   <property name="geometry">
-    <rect>
-     <x>160</x>
-     <y>40</y>
-     <width>113</width>
+     <y>290</y>
+     <width>161</width>
      <height>20</height>
     </rect>
    </property>
@@ -95,12 +65,12 @@
     <string>50.25958</string>
    </property>
   </widget>
-  <widget class="QLineEdit" name="longitude_bad">
+  <widget class="QLineEdit" name="longitudeBad">
    <property name="geometry">
     <rect>
-     <x>160</x>
-     <y>10</y>
-     <width>113</width>
+     <x>10</x>
+     <y>250</y>
+     <width>161</width>
      <height>20</height>
     </rect>
    </property>
@@ -111,8 +81,8 @@
   <widget class="QLabel" name="label">
    <property name="geometry">
     <rect>
-     <x>280</x>
-     <y>10</y>
+     <x>10</x>
+     <y>230</y>
      <width>61</width>
      <height>21</height>
     </rect>
@@ -124,8 +94,8 @@
   <widget class="QLabel" name="label_2">
    <property name="geometry">
     <rect>
-     <x>280</x>
-     <y>40</y>
+     <x>10</x>
+     <y>270</y>
      <width>47</width>
      <height>21</height>
     </rect>
@@ -138,21 +108,21 @@
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>10</y>
-     <width>181</width>
-     <height>51</height>
+     <y>-10</y>
+     <width>161</width>
+     <height>41</height>
     </rect>
    </property>
    <property name="text">
-    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Участок дороги на котором&lt;/p&gt;&lt;p&gt;планируется ремонт&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Ремонтируемые участки&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
    </property>
   </widget>
   <widget class="QTimeEdit" name="timeEdit">
    <property name="geometry">
     <rect>
-     <x>10</x>
-     <y>330</y>
-     <width>121</width>
+     <x>520</x>
+     <y>250</y>
+     <width>141</width>
      <height>22</height>
     </rect>
    </property>
@@ -160,9 +130,9 @@
   <widget class="QLabel" name="label_4">
    <property name="geometry">
     <rect>
-     <x>10</x>
-     <y>72</y>
-     <width>121</width>
+     <x>520</x>
+     <y>-8</y>
+     <width>141</width>
      <height>41</height>
     </rect>
    </property>
@@ -173,9 +143,9 @@
   <widget class="QLabel" name="label_5">
    <property name="geometry">
     <rect>
-     <x>140</x>
-     <y>70</y>
-     <width>121</width>
+     <x>180</x>
+     <y>-10</y>
+     <width>161</width>
      <height>41</height>
     </rect>
    </property>
@@ -186,9 +156,9 @@
   <widget class="QLabel" name="label_6">
    <property name="geometry">
     <rect>
-     <x>270</x>
-     <y>70</y>
-     <width>121</width>
+     <x>350</x>
+     <y>-10</y>
+     <width>161</width>
      <height>41</height>
     </rect>
    </property>
@@ -196,22 +166,22 @@
     <string>Перекрёстки для объезда</string>
    </property>
   </widget>
-  <widget class="QLineEdit" name="lineEdit_3">
+  <widget class="QLineEdit" name="latitudeRoad">
    <property name="geometry">
     <rect>
-     <x>140</x>
-     <y>370</y>
-     <width>121</width>
+     <x>180</x>
+     <y>290</y>
+     <width>161</width>
      <height>20</height>
     </rect>
    </property>
   </widget>
-  <widget class="QLineEdit" name="lineEdit_4">
+  <widget class="QLineEdit" name="longitudeRoad">
    <property name="geometry">
     <rect>
-     <x>140</x>
-     <y>330</y>
-     <width>121</width>
+     <x>180</x>
+     <y>250</y>
+     <width>161</width>
      <height>20</height>
     </rect>
    </property>
@@ -219,9 +189,9 @@
   <widget class="QLabel" name="label_7">
    <property name="geometry">
     <rect>
-     <x>140</x>
-     <y>310</y>
-     <width>61</width>
+     <x>180</x>
+     <y>230</y>
+     <width>161</width>
      <height>21</height>
     </rect>
    </property>
@@ -232,9 +202,9 @@
   <widget class="QLabel" name="label_8">
    <property name="geometry">
     <rect>
-     <x>140</x>
-     <y>350</y>
-     <width>47</width>
+     <x>180</x>
+     <y>270</y>
+     <width>161</width>
      <height>21</height>
     </rect>
    </property>
@@ -245,8 +215,8 @@
   <widget class="QLabel" name="label_9">
    <property name="geometry">
     <rect>
-     <x>270</x>
-     <y>310</y>
+     <x>350</x>
+     <y>230</y>
      <width>61</width>
      <height>21</height>
     </rect>
@@ -255,22 +225,22 @@
     <string>Долгота</string>
    </property>
   </widget>
-  <widget class="QLineEdit" name="lineEdit_5">
+  <widget class="QLineEdit" name="latitudeCrossroad">
    <property name="geometry">
     <rect>
-     <x>270</x>
-     <y>370</y>
-     <width>121</width>
+     <x>350</x>
+     <y>290</y>
+     <width>161</width>
      <height>20</height>
     </rect>
    </property>
   </widget>
-  <widget class="QLineEdit" name="lineEdit_6">
+  <widget class="QLineEdit" name="longitudeCrossroad">
    <property name="geometry">
     <rect>
-     <x>270</x>
-     <y>330</y>
-     <width>121</width>
+     <x>350</x>
+     <y>250</y>
+     <width>161</width>
      <height>20</height>
     </rect>
    </property>
@@ -278,8 +248,8 @@
   <widget class="QLabel" name="label_10">
    <property name="geometry">
     <rect>
-     <x>270</x>
-     <y>350</y>
+     <x>350</x>
+     <y>270</y>
      <width>47</width>
      <height>21</height>
     </rect>
@@ -288,30 +258,70 @@
     <string>Широта</string>
    </property>
   </widget>
-  <widget class="QLabel" name="label_11">
+  <widget class="QLabel" name="imageMap">
    <property name="geometry">
     <rect>
-     <x>410</x>
-     <y>10</y>
+     <x>10</x>
+     <y>350</y>
      <width>649</width>
      <height>449</height>
     </rect>
    </property>
    <property name="text">
-    <string>TextLabel</string>
+    <string/>
    </property>
   </widget>
-  <widget class="QPushButton" name="button_ok">
+  <widget class="QPushButton" name="addBadRoadButton">
    <property name="geometry">
     <rect>
-     <x>330</x>
-     <y>10</y>
-     <width>61</width>
-     <height>51</height>
+     <x>10</x>
+     <y>320</y>
+     <width>161</width>
+     <height>21</height>
     </rect>
    </property>
    <property name="text">
-    <string>ОК</string>
+    <string>Добавть участок</string>
+   </property>
+  </widget>
+  <widget class="QListWidget" name="badRoadList">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>21</y>
+     <width>161</width>
+     <height>211</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QListWidget" name="roadList">
+   <property name="geometry">
+    <rect>
+     <x>180</x>
+     <y>20</y>
+     <width>161</width>
+     <height>211</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QListWidget" name="crossroadList">
+   <property name="geometry">
+    <rect>
+     <x>350</x>
+     <y>20</y>
+     <width>161</width>
+     <height>211</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QListWidget" name="timeList">
+   <property name="geometry">
+    <rect>
+     <x>520</x>
+     <y>20</y>
+     <width>141</width>
+     <height>211</height>
+    </rect>
    </property>
   </widget>
  </widget>

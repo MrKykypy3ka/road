@@ -1,7 +1,5 @@
 from PyQt5 import uic, QtWidgets, QtCore, QtGui
 from forms.main_form import Ui_mainForm
-from PyQt5.QtGui import QPixmap
-import sys
 from forms.UiA import UiA
 
 Form, Window = uic.loadUiType("forms/main_form.ui")
@@ -16,7 +14,6 @@ class UiM(QtWidgets.QDialog, Form):
         self.setWindowFlags(QtCore.Qt.WindowCloseButtonHint)
         self.setFixedSize(self.width(), self.height())
         self.addForm = UiA(self)
-
 
     def buttonPresed2(self):
         self.addForm.show()

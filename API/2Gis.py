@@ -4,6 +4,7 @@ from PIL import Image, ImageDraw
 #1967db2b-de7d-46b3-b63a-ab040702a18a
 #ruhpjd9444
 
+
 def twoGis():
     link = 'https://routing.api.2gis.com/carrouting/6.0.0/global?key=1967db2b-de7d-46b3-b63a-ab040702a18a'
     headers = json.load(open("data/headers.json", "r"))
@@ -13,6 +14,7 @@ def twoGis():
     with open('data/result.json', 'w', encoding='utf-8') as out_file:
         json.dump(result, out_file, separators=(', ', ': '), indent=4, ensure_ascii=False)
 
+
 def get_city():
     link = f'https://catalog.api.2gis.com/3.0/items/geocode?lon={127.54388}&lat={50.25957}&fields=items.adm_div,items.address&type=street&key=ruhpjd9444'
     question = requests.get(url=link).text
@@ -21,12 +23,14 @@ def get_city():
         json.dump(result, out_file, separators=(', ', ': '), indent=4, ensure_ascii=False)
 
 
+
 def coor():
     link = f'https://catalog.api.2gis.com/2.0/region/search?q=Благовещенск&fields=items.bounds&key=ruhpjd9444'
     question = requests.get(url=link).text
     result = json.loads(question)
     with open('data/result.json', 'w', encoding='utf-8') as out_file:
         json.dump(result, out_file, separators=(', ', ': '), indent=4, ensure_ascii=False)
+
 
 def draw_dot():
     image = Image.open('img.png')
