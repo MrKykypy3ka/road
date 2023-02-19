@@ -9,7 +9,16 @@
 
 
 from PyQt5 import QtCore, QtGui, QtWidgets
+from PyQt5.QtWidgets import QLabel
+from PyQt5.QtCore import pyqtSignal
 
+class ClickedLabel(QLabel):
+    clicked = pyqtSignal()
+
+    def mouseReleaseEvent(self, e):
+        super().mouseReleaseEvent(e)
+
+        self.clicked.emit()
 
 class Ui_addForm(object):
     def setupUi(self, addForm):
@@ -75,7 +84,7 @@ class Ui_addForm(object):
         self.label_10 = QtWidgets.QLabel(addForm)
         self.label_10.setGeometry(QtCore.QRect(350, 270, 47, 21))
         self.label_10.setObjectName("label_10")
-        self.imageMap = QtWidgets.QLabel(addForm)
+        self.imageMap = ClickedLabel(addForm)
         self.imageMap.setGeometry(QtCore.QRect(10, 350, 649, 256))
         self.imageMap.setText("")
         self.imageMap.setObjectName("imageMap")

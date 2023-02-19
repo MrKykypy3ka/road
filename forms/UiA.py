@@ -1,3 +1,5 @@
+import time
+
 from PyQt5 import uic, QtWidgets, QtCore
 from forms.add_Form import Ui_addForm
 from PyQt5.QtGui import QPixmap
@@ -35,6 +37,14 @@ class UiA(QtWidgets.QDialog, Form):
         self.uia.addTimeButton.clicked.connect(self.add_time)
         tracker = MouseTracker(self.uia.imageMap)
         tracker.positionChanged.connect(self.on_positionChanged)
+        self.center = None
+        self.uia.imageMap.clicked.connect(self.map_click)
+
+
+    def map_click(self):
+        self.uia.longitudeBad.setText(f"{round(float(self.uia.longitudeBad.text()) + self.x * self.kx, 6)}")
+        self.uia.latitudeBad.setText(f"{round(float(self.uia.latitudeBad.text()) + self.y * self.ky, 6)}")
+
 
     def showEvent(self, event):
         #get_map(0, 0)
@@ -44,18 +54,16 @@ class UiA(QtWidgets.QDialog, Form):
     def on_positionChanged(self, pos):
         delta = QtCore.QPoint(30, 320)
         self.uia.coor.move(pos + delta)
-        #print("(%d, %d)" % (pos.x(), pos.y()))
+        self.x = -(self.uia.imageMap.width() // 2 - pos.x())
+        self.y = self.uia.imageMap.height() // 2 - pos.y()
+        self.kx = 0.0000428
+        self.ky = 0.000028
         self.uia.coor.adjustSize()
-        self.uia.coor.setText(f"{pos.x() * (float(self.uia.longitudeBad.text()) / self.uia.imageMap.width())}\n{pos.y() * (float(self.uia.latitudeBad.text()) / self.uia.imageMap.height())}")
+        self.uia.coor.setText(f"{round(float(self.uia.longitudeBad.text()) + self.x * self.kx, 6)}\n"
+                              f"{round(float(self.uia.latitudeBad.text()) + self.y * self.ky, 6)}")
+        #50.258908, 127.550502
 
     def load_map(self):
-        # (0, 0) (50.262629, 127.537114)
-        # (649, 0) (50.262681, 127.550838)
-        # (0, 449) (50.256489, 127.536930)
-        # (649, 449) (50.256483, 127.550860)
-        # (325, 225) (50.25958, 127.54389)
-        # longitudu - Долгота
-        # latitude - широта
         longitude = float(self.uia.longitudeBad.text())
         latitude = float(self.uia.latitudeBad.text())
         get_map(longitude, latitude)
@@ -64,12 +72,7 @@ class UiA(QtWidgets.QDialog, Form):
     def add_bad_road(self):
         self.uia.badRoadList.addItem(f"({self.uia.longitudeBad.text()}, {self.uia.latitudeBad.text()})")
         self.load_map()
-        # self.uia.longitudeBad.setText("")
-        # self.uia.latitudeBad.setText("")
-        print(f"y - долгота: {self.uia.latitudeBad.text()}")
-        print(f"х - широта: {self.uia.longitudeBad.text()}")
-        print(f"k1 - долгота(н): {float(self.uia.longitudeBad.text()) / self.uia.imageMap.width()}")
-        print(f"k1 - широта(н): {float(self.uia.latitudeBad.text()) / self.uia.imageMap.height()}")
+
 
     def add_road(self):
         self.uia.roadList.addItem(f"({self.uia.longitudeRoad.text()}, {self.uia.latitudeRoad.text()})")
