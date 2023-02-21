@@ -1,5 +1,3 @@
-import time
-
 from PyQt5 import uic, QtWidgets, QtCore
 from forms.add_Form import Ui_addForm
 from PyQt5.QtGui import QPixmap
@@ -29,60 +27,76 @@ class MouseTracker(QtCore.QObject):
 class UiA(QtWidgets.QDialog, Form):
     def __init__(self, parent=None):
         super(UiA, self).__init__(parent)
+        self.kx = 0.00002133
+        self.ky = 0.0000135
+
+        self.y = None
+        self.x = None
+
+        self.center = None
         self.uia = Ui_addForm()
         self.uia.setupUi(self)
         self.uia.addBadRoadButton.clicked.connect(self.add_bad_road)
         self.uia.addRoadButton.clicked.connect(self.add_road)
         self.uia.addCrossroadButton.clicked.connect(self.add_crossroad)
         self.uia.addTimeButton.clicked.connect(self.add_time)
+        self.uia.imageMap.clicked.connect(self.map_click)
+        self.uia.viewButton.clicked.connect(self.load_map)
+
         tracker = MouseTracker(self.uia.imageMap)
         tracker.positionChanged.connect(self.on_positionChanged)
-        self.center = None
-        self.uia.imageMap.clicked.connect(self.map_click)
+        self.new_longitude = self.uia.longitudeEdit.text()
+        self.new_latitude = self.uia.latitudeEdit.text()
 
 
     def map_click(self):
-        self.uia.longitudeBad.setText(f"{round(float(self.uia.longitudeBad.text()) + self.x * self.kx, 6)}")
-        self.uia.latitudeBad.setText(f"{round(float(self.uia.latitudeBad.text()) + self.y * self.ky, 6)}")
+        self.x = -(325 - self.pos_x)
+        self.y = 225 - self.pos_y
+
+        self.new_longitude = round(float(self.uia.longitudeEdit.text()) + self.x * self.kx, 6)
+        self.new_latitude = round(float(self.uia.latitudeEdit.text()) + self.y * self.ky, 6)
+
+        self.uia.longitudeEdit.setText(f"{self.new_longitude}")
+        self.uia.latitudeEdit.setText(f"{self.new_latitude}")
+
+        self.center = f"({self.uia.longitudeEdit.text()}, {self.uia.latitudeEdit.text()})"
 
 
     def showEvent(self, event):
-        #get_map(0, 0)
         self.uia.imageMap.setPixmap(QPixmap('data\map.png'))
 
     @QtCore.pyqtSlot(QtCore.QPoint)
     def on_positionChanged(self, pos):
         delta = QtCore.QPoint(30, 320)
         self.uia.coor.move(pos + delta)
-        self.x = -(self.uia.imageMap.width() // 2 - pos.x())
-        self.y = self.uia.imageMap.height() // 2 - pos.y()
-        self.kx = 0.0000428
-        self.ky = 0.000028
         self.uia.coor.adjustSize()
-        self.uia.coor.setText(f"{round(float(self.uia.longitudeBad.text()) + self.x * self.kx, 6)}\n"
-                              f"{round(float(self.uia.latitudeBad.text()) + self.y * self.ky, 6)}")
-        #50.258908, 127.550502
+
+        self.pos_x = pos.x()
+        self.pos_y = pos.y()
+
+        self.x = -(325 - pos.x())
+        self.y = 225 - pos.y()
+
+        self.uia.coor.setText(f"{round(float(self.uia.longitudeEdit.text()) + self.x * self.kx, 6)}\n"
+                              f"{round(float(self.uia.latitudeEdit.text()) + self.y * self.ky, 6)}")
+
 
     def load_map(self):
-        longitude = float(self.uia.longitudeBad.text())
-        latitude = float(self.uia.latitudeBad.text())
-        get_map(longitude, latitude)
+        get_map(self.new_longitude, self.new_latitude)
         self.uia.imageMap.setPixmap(QPixmap('data\map.png'))
 
     def add_bad_road(self):
-        self.uia.badRoadList.addItem(f"({self.uia.longitudeBad.text()}, {self.uia.latitudeBad.text()})")
+        self.uia.badRoadList.addItem(self.center)
         self.load_map()
 
 
     def add_road(self):
-        self.uia.roadList.addItem(f"({self.uia.longitudeRoad.text()}, {self.uia.latitudeRoad.text()})")
-        self.uia.longitudeRoad.setText()
-        self.uia.latitudeRoad.setText()
+        self.uia.roadList.addItem(self.center)
+        self.load_map()
 
     def add_crossroad(self):
-        self.uia.crossroadList.addItem(f"({self.uia.longitudeCrossroad.text()}, {self.uia.latitudeCrossroad.text()})")
-        self.uia.longitudeCrossroad.setText()
-        self.uia.latitudeCrossroad.setText()
+        self.uia.crossroadList.addItem(self.center)
+        self.load_map()
 
     def add_time(self):
-        self.uia.timeList.addItem(self.uia.timeEdit.time().toPyTime())
+        self.uia.timeList.addItem(self.uia.timeEdit.time().toString('hh:mm'))

@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>671</width>
-    <height>620</height>
+    <height>760</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -17,7 +17,7 @@
    <property name="geometry">
     <rect>
      <x>520</x>
-     <y>320</y>
+     <y>240</y>
      <width>141</width>
      <height>23</height>
     </rect>
@@ -30,7 +30,7 @@
    <property name="geometry">
     <rect>
      <x>180</x>
-     <y>320</y>
+     <y>240</y>
      <width>161</width>
      <height>23</height>
     </rect>
@@ -43,7 +43,7 @@
    <property name="geometry">
     <rect>
      <x>350</x>
-     <y>320</y>
+     <y>240</y>
      <width>161</width>
      <height>23</height>
     </rect>
@@ -52,12 +52,12 @@
     <string>Добавить перекрёсток</string>
    </property>
   </widget>
-  <widget class="QLineEdit" name="latitudeBad">
+  <widget class="QLineEdit" name="latitudeEdit">
    <property name="geometry">
     <rect>
-     <x>10</x>
-     <y>290</y>
-     <width>161</width>
+     <x>60</x>
+     <y>270</y>
+     <width>111</width>
      <height>20</height>
     </rect>
    </property>
@@ -65,12 +65,12 @@
     <string>50.25958</string>
    </property>
   </widget>
-  <widget class="QLineEdit" name="longitudeBad">
+  <widget class="QLineEdit" name="longitudeEdit">
    <property name="geometry">
     <rect>
-     <x>10</x>
-     <y>250</y>
-     <width>161</width>
+     <x>230</x>
+     <y>270</y>
+     <width>111</width>
      <height>20</height>
     </rect>
    </property>
@@ -82,26 +82,26 @@
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>230</y>
-     <width>61</width>
+     <y>270</y>
+     <width>51</width>
      <height>21</height>
     </rect>
    </property>
    <property name="text">
-    <string>Долгота</string>
+    <string>Долгота:</string>
    </property>
   </widget>
   <widget class="QLabel" name="label_2">
    <property name="geometry">
     <rect>
-     <x>10</x>
+     <x>180</x>
      <y>270</y>
-     <width>47</width>
+     <width>51</width>
      <height>21</height>
     </rect>
    </property>
    <property name="text">
-    <string>Широта</string>
+    <string>Широта:</string>
    </property>
   </widget>
   <widget class="QLabel" name="label_3">
@@ -121,7 +121,7 @@
    <property name="geometry">
     <rect>
      <x>520</x>
-     <y>250</y>
+     <y>210</y>
      <width>141</width>
      <height>22</height>
     </rect>
@@ -166,105 +166,13 @@
     <string>Перекрёстки для объезда</string>
    </property>
   </widget>
-  <widget class="QLineEdit" name="latitudeRoad">
-   <property name="geometry">
-    <rect>
-     <x>180</x>
-     <y>290</y>
-     <width>161</width>
-     <height>20</height>
-    </rect>
-   </property>
-  </widget>
-  <widget class="QLineEdit" name="longitudeRoad">
-   <property name="geometry">
-    <rect>
-     <x>180</x>
-     <y>250</y>
-     <width>161</width>
-     <height>20</height>
-    </rect>
-   </property>
-  </widget>
-  <widget class="QLabel" name="label_7">
-   <property name="geometry">
-    <rect>
-     <x>180</x>
-     <y>230</y>
-     <width>161</width>
-     <height>21</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>Долгота</string>
-   </property>
-  </widget>
-  <widget class="QLabel" name="label_8">
-   <property name="geometry">
-    <rect>
-     <x>180</x>
-     <y>270</y>
-     <width>161</width>
-     <height>21</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>Широта</string>
-   </property>
-  </widget>
-  <widget class="QLabel" name="label_9">
-   <property name="geometry">
-    <rect>
-     <x>350</x>
-     <y>230</y>
-     <width>61</width>
-     <height>21</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>Долгота</string>
-   </property>
-  </widget>
-  <widget class="QLineEdit" name="latitudeCrossroad">
-   <property name="geometry">
-    <rect>
-     <x>350</x>
-     <y>290</y>
-     <width>161</width>
-     <height>20</height>
-    </rect>
-   </property>
-  </widget>
-  <widget class="QLineEdit" name="longitudeCrossroad">
-   <property name="geometry">
-    <rect>
-     <x>350</x>
-     <y>250</y>
-     <width>161</width>
-     <height>20</height>
-    </rect>
-   </property>
-  </widget>
-  <widget class="QLabel" name="label_10">
-   <property name="geometry">
-    <rect>
-     <x>350</x>
-     <y>270</y>
-     <width>47</width>
-     <height>21</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>Широта</string>
-   </property>
-  </widget>
   <widget class="QLabel" name="imageMap">
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>350</y>
+     <y>300</y>
      <width>649</width>
-     <height>256</height>
+     <height>449</height>
     </rect>
    </property>
    <property name="text">
@@ -275,7 +183,7 @@
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>320</y>
+     <y>240</y>
      <width>161</width>
      <height>21</height>
     </rect>
@@ -320,15 +228,15 @@
      <x>520</x>
      <y>20</y>
      <width>141</width>
-     <height>211</height>
+     <height>181</height>
     </rect>
    </property>
   </widget>
   <widget class="QLabel" name="coor">
    <property name="geometry">
     <rect>
-     <x>520</x>
-     <y>280</y>
+     <x>10</x>
+     <y>320</y>
      <width>71</width>
      <height>31</height>
     </rect>
@@ -342,10 +250,36 @@
     margin-bottom: 0.1em; /* Отступ снизу */
    }
   &lt;/style&gt;
-&lt;p&gt;Долгота&lt;/p&gt;
-&lt;p&gt;Широта&lt;/p&gt;
+&lt;p&gt; &lt;/p&gt;
+&lt;p&gt; &lt;/p&gt;
 &lt;/body&gt;
 &lt;/html&gt;</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="viewButton">
+   <property name="geometry">
+    <rect>
+     <x>350</x>
+     <y>270</y>
+     <width>161</width>
+     <height>23</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Отобразить</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="saveButton">
+   <property name="geometry">
+    <rect>
+     <x>520</x>
+     <y>270</y>
+     <width>141</width>
+     <height>23</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Сохранить</string>
    </property>
   </widget>
  </widget>
