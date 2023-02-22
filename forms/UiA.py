@@ -51,12 +51,11 @@ class UiA(QtWidgets.QDialog, Form):
         self.new_longitude = self.uia.longitudeEdit.text()
         self.new_latitude = self.uia.latitudeEdit.text()
 
-        self.db = sqlite3.connect('load.sqlite')
+        self.db = sqlite3.connect('load.db')
         self.sql = self.db.cursor()
 
 
     def save(self):
-        print(1)
         self.save_bad_sections()
         self.save_road()
         self.save_crossroad()
@@ -64,18 +63,22 @@ class UiA(QtWidgets.QDialog, Form):
         self.save_date()
 
     def save_bad_sections(self):
-        s_id = 1
-        print([self.uia.badRoadList.item(i) for i in range(self.uia.badRoadList.count())])
-        for elem in self.uia.badRoadList.items():
-            # sqlite_insert_query = "INSERT INTO badSections (badSection_id, street, longitude, latitude, count_lane, max_speed) VALUES (?, ?, ?, ?, ?, ?);"
-            temp = elem.replace(',', '').replace('(', '').replace(')', '')
-            longitude = elem
-            print(longitude)
-            # latitude =
-            # data = (s_id, "", )
-            # sql.execute(sqlite_insert_query, data)
-            # db.commit()
-            # s_id += 1
+        try:
+            badSection_id = 1
+            for elem in [self.uia.badRoadList.item(i).text() for i in range(self.uia.badRoadList.count())]:
+                temp = elem.replace(',', '').replace('(', '').replace(')', '').split()
+                longitude = temp[0]
+                latitude = temp[1]
+
+                sqlite_insert_query = """INSERT INTO badSections (badSection_id, street, longitude, latitude, count_lane, max_speed) VALUES (?, ?, ?, ?, ?, ?);"""
+                data = (badSection_id, "", longitude, latitude, 0, 0)
+                self.sql.execute(sqlite_insert_query, data)
+                self.db.commit()
+                badSection_id += 1
+        except sqlite3.Error as error:
+            print("Ошибка при работе с SQLite", error)
+        finally:
+            print("Данные успешно загружены!")
 
     def save_road(self):
         pass
