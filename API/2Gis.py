@@ -1,8 +1,6 @@
 import requests
 import json
 from PIL import Image, ImageDraw
-#1967db2b-de7d-46b3-b63a-ab040702a18a
-#ruhpjd9444
 
 
 def twoGis():
@@ -16,7 +14,8 @@ def twoGis():
 
 
 def get_city():
-    link = f'https://catalog.api.2gis.com/3.0/items/geocode?lon={127.54388}&lat={50.25957}&fields=items.adm_div,items.address&type=street&key=ruhpjd9444'
+    link = f'https://catalog.api.2gis.com/3.0/items/geocode?' \
+           f'lon={127.54388}&lat={50.25957}&fields=items.adm_div,items.address&type=street&key=ruhpjd9444'
     question = requests.get(url=link).text
     result = json.loads(question)
     with open('data/result.json', 'w', encoding='utf-8') as out_file:
@@ -24,7 +23,7 @@ def get_city():
 
 
 
-def coor():
+def coordination():
     link = f'https://catalog.api.2gis.com/2.0/region/search?q=Благовещенск&fields=items.bounds&key=ruhpjd9444'
     question = requests.get(url=link).text
     result = json.loads(question)

@@ -256,19 +256,6 @@
 &lt;/html&gt;</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="viewButton">
-   <property name="geometry">
-    <rect>
-     <x>350</x>
-     <y>270</y>
-     <width>161</width>
-     <height>23</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>Отобразить</string>
-   </property>
-  </widget>
   <widget class="QPushButton" name="saveButton">
    <property name="geometry">
     <rect>
@@ -281,6 +268,31 @@
    <property name="text">
     <string>Сохранить</string>
    </property>
+  </widget>
+  <widget class="QComboBox" name="comboBox">
+   <property name="geometry">
+    <rect>
+     <x>350</x>
+     <y>270</y>
+     <width>161</width>
+     <height>22</height>
+    </rect>
+   </property>
+   <item>
+    <property name="text">
+     <string>Карта и нагрузка</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string notr="true">Карта</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>Нагрузка</string>
+    </property>
+   </item>
   </widget>
  </widget>
  <resources/>

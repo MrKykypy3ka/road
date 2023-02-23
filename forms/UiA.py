@@ -29,11 +29,15 @@ class MouseTracker(QtCore.QObject):
 class UiA(QtWidgets.QDialog, Form):
     def __init__(self, parent=None):
         super(UiA, self).__init__(parent)
+        self.map = 'map,trf'
+        self.scale = 2
         self.kx = 0.00002133
         self.ky = 0.0000135
 
         self.y = None
         self.x = None
+        self.pos_x = None
+        self.pos_y = None
 
         self.center = None
         self.uia = Ui_addForm()
@@ -43,7 +47,7 @@ class UiA(QtWidgets.QDialog, Form):
         self.uia.addCrossroadButton.clicked.connect(self.add_crossroad)
         self.uia.addTimeButton.clicked.connect(self.add_time)
         self.uia.imageMap.clicked.connect(self.map_click)
-        self.uia.viewButton.clicked.connect(self.load_map)
+
         self.uia.saveButton.clicked.connect(self.save)
         tracker = MouseTracker(self.uia.imageMap)
         tracker.positionChanged.connect(self.on_positionChanged)
@@ -54,6 +58,21 @@ class UiA(QtWidgets.QDialog, Form):
         self.db = sqlite3.connect('load.db')
         self.sql = self.db.cursor()
 
+        self.uia.comboBox.currentIndexChanged.connect(self.view)
+
+        self.uia.imageMap.setCursor(QtCore.Qt.CrossCursor)
+
+    def view(self):
+        if self.uia.comboBox.currentIndex() == 0:
+            self.map = 'map,trf'
+            self.scale = 2
+        elif self.uia.comboBox.currentIndex() == 1:
+            self.map = 'map'
+            self.scale = 1
+        elif self.uia.comboBox.currentIndex() == 2:
+            self.map = 'trf'
+            self.scale = 2
+        self.load_map()
 
     def save(self):
         self.save_bad_sections()
@@ -70,7 +89,8 @@ class UiA(QtWidgets.QDialog, Form):
                 longitude = temp[0]
                 latitude = temp[1]
 
-                sqlite_insert_query = """INSERT INTO badSections (badSection_id, street, longitude, latitude, count_lane, max_speed) VALUES (?, ?, ?, ?, ?, ?);"""
+                sqlite_insert_query = """INSERT INTO badSections (badSection_id, street,
+                 longitude, latitude, count_lane, max_speed) VALUES (?, ?, ?, ?, ?, ?);"""
                 data = (badSection_id, "", longitude, latitude, 0, 0)
                 self.sql.execute(sqlite_insert_query, data)
                 self.db.commit()
@@ -103,14 +123,15 @@ class UiA(QtWidgets.QDialog, Form):
         self.uia.latitudeEdit.setText(f"{self.new_latitude}")
 
         self.center = f"({self.uia.longitudeEdit.text()}, {self.uia.latitudeEdit.text()})"
+        self.load_map()
 
 
     def showEvent(self, event):
-        self.uia.imageMap.setPixmap(QPixmap('data\map.png'))
+        self.uia.imageMap.setPixmap(QPixmap('data/map.png'))
 
     @QtCore.pyqtSlot(QtCore.QPoint)
     def on_positionChanged(self, pos):
-        delta = QtCore.QPoint(30, 320)
+        delta = QtCore.QPoint(-15, 320)
         self.uia.coor.move(pos + delta)
         self.uia.coor.adjustSize()
 
@@ -125,8 +146,8 @@ class UiA(QtWidgets.QDialog, Form):
 
 
     def load_map(self):
-        get_map(self.new_longitude, self.new_latitude)
-        self.uia.imageMap.setPixmap(QPixmap('data\map.png'))
+        get_map(self.new_longitude, self.new_latitude, self.map, self.scale)
+        self.uia.imageMap.setPixmap(QPixmap("data/map.png"))
 
     def add_bad_road(self):
         self.uia.badRoadList.addItem(self.center)
