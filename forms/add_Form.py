@@ -71,12 +71,16 @@ class Ui_addForm(object):
         self.coor = QtWidgets.QLabel(addForm)
         self.coor.setGeometry(QtCore.QRect(10, 320, 71, 31))
         self.coor.setObjectName("coor")
-        self.viewButton = QtWidgets.QPushButton(addForm)
-        self.viewButton.setGeometry(QtCore.QRect(350, 270, 161, 23))
-        self.viewButton.setObjectName("viewButton")
         self.saveButton = QtWidgets.QPushButton(addForm)
         self.saveButton.setGeometry(QtCore.QRect(520, 270, 141, 23))
         self.saveButton.setObjectName("saveButton")
+        self.comboBox = QtWidgets.QComboBox(addForm)
+        self.comboBox.setGeometry(QtCore.QRect(350, 270, 161, 22))
+        self.comboBox.setObjectName("comboBox")
+        self.comboBox.addItem("")
+        self.comboBox.addItem("")
+        self.comboBox.setItemText(1, "Карта")
+        self.comboBox.addItem("")
 
         self.retranslateUi(addForm)
         QtCore.QMetaObject.connectSlotsByName(addForm)
@@ -108,8 +112,9 @@ class Ui_addForm(object):
 "<p> </p>\n"
 "</body>\n"
 "</html>"))
-        self.viewButton.setText(_translate("addForm", "Отобразить"))
         self.saveButton.setText(_translate("addForm", "Сохранить"))
+        self.comboBox.setItemText(0, _translate("addForm", "Карта и нагрузка"))
+        self.comboBox.setItemText(2, _translate("addForm", "Нагрузка"))
 
 
 if __name__ == "__main__":

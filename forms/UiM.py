@@ -1,4 +1,4 @@
-from PyQt5 import uic, QtWidgets, QtCore, QtGui
+from PyQt5 import uic, QtWidgets, QtCore
 from forms.main_form import Ui_mainForm
 from forms.UiA import UiA
 
@@ -15,8 +15,8 @@ class UiM(QtWidgets.QDialog, Form):
         self.setFixedSize(self.width(), self.height())
         self.addForm = UiA(self)
 
-    def buttonPresed2(self):
+    def button_pressed2(self):
         self.addForm.show()
 
     def initUI(self):
-        self.uim.pushButton_2.clicked.connect(self.buttonPresed2)
+        self.uim.pushButton_2.clicked.connect(self.button_pressed2)
