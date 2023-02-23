@@ -30,7 +30,7 @@ class UiA(QtWidgets.QDialog, Form):
     def __init__(self, parent=None):
         super(UiA, self).__init__(parent)
         self.map = 'map,trf'
-        self.scale = 2
+        self.scale = 1
         self.kx = 0.00002133
         self.ky = 0.0000135
 
@@ -65,52 +65,14 @@ class UiA(QtWidgets.QDialog, Form):
     def view(self):
         if self.uia.comboBox.currentIndex() == 0:
             self.map = 'map,trf'
-            self.scale = 2
+            self.scale = 1
         elif self.uia.comboBox.currentIndex() == 1:
             self.map = 'map'
             self.scale = 1
         elif self.uia.comboBox.currentIndex() == 2:
             self.map = 'trf'
-            self.scale = 2
+            self.scale = 1
         self.load_map()
-
-    def save(self):
-        self.save_bad_sections()
-        self.save_road()
-        self.save_crossroad()
-        self.save_time()
-        self.save_date()
-
-    def save_bad_sections(self):
-        try:
-            badSection_id = 1
-            for elem in [self.uia.badRoadList.item(i).text() for i in range(self.uia.badRoadList.count())]:
-                temp = elem.replace(',', '').replace('(', '').replace(')', '').split()
-                longitude = temp[0]
-                latitude = temp[1]
-
-                sqlite_insert_query = """INSERT INTO badSections (badSection_id, street,
-                 longitude, latitude, count_lane, max_speed) VALUES (?, ?, ?, ?, ?, ?);"""
-                data = (badSection_id, "", longitude, latitude, 0, 0)
-                self.sql.execute(sqlite_insert_query, data)
-                self.db.commit()
-                badSection_id += 1
-        except sqlite3.Error as error:
-            print("Ошибка при работе с SQLite", error)
-        finally:
-            print("Данные успешно загружены!")
-
-    def save_road(self):
-        pass
-
-    def save_crossroad(self):
-        pass
-
-    def save_time(self):
-        pass
-
-    def save_date(self):
-        pass
 
     def map_click(self):
         self.x = -(325 - self.pos_x)
@@ -127,7 +89,9 @@ class UiA(QtWidgets.QDialog, Form):
 
 
     def showEvent(self, event):
-        self.uia.imageMap.setPixmap(QPixmap('data/map.png'))
+        self.new_longitude = self.uia.longitudeEdit.text()
+        self.new_latitude = self.uia.latitudeEdit.text()
+        self.load_map()
 
     @QtCore.pyqtSlot(QtCore.QPoint)
     def on_positionChanged(self, pos):
@@ -164,3 +128,85 @@ class UiA(QtWidgets.QDialog, Form):
 
     def add_time(self):
         self.uia.timeList.addItem(self.uia.timeEdit.time().toString('hh:mm'))
+
+    def save(self):
+        self.save_bad_sections()
+        self.save_road()
+        self.save_crossroad()
+        self.save_time()
+        self.save_date()
+
+    def save_bad_sections(self):
+        try:
+            badSection_id = 1
+            for elem in [self.uia.badRoadList.item(i).text() for i in range(self.uia.badRoadList.count())]:
+                temp = elem.replace(',', '').replace('(', '').replace(')', '').split()
+                longitude = temp[0]
+                latitude = temp[1]
+
+                sqlite_insert_query = """INSERT INTO badSections (badSection_id, street,
+                 longitude, latitude, count_lane, max_speed) VALUES (?, ?, ?, ?, ?, ?);"""
+                data = (badSection_id, "", longitude, latitude, 0, 0)
+                self.sql.execute(sqlite_insert_query, data)
+                self.db.commit()
+                badSection_id += 1
+        except sqlite3.Error as error:
+            print("Ошибка при работе с SQLite", error)
+        finally:
+            print("Данные успешно загружены!")
+
+    def save_road(self):
+        try:
+            road_id = 1
+            for elem in [self.uia.roadList.item(i).text() for i in range(self.uia.roadList.count())]:
+                temp = elem.replace(',', '').replace('(', '').replace(')', '').split()
+                longitude = temp[0]
+                latitude = temp[1]
+
+                sqlite_insert_query = """INSERT INTO roads (road_id, street,
+                 longitude, latitude, count_lanes, max_speed) VALUES (?, ?, ?, ?, ?, ?);"""
+                data = (road_id, "", longitude, latitude, 0, 0)
+                self.sql.execute(sqlite_insert_query, data)
+                self.db.commit()
+                road_id += 1
+        except sqlite3.Error as error:
+            print("Ошибка при работе с SQLite", error)
+        finally:
+            print("Данные успешно загружены!")
+
+    def save_crossroad(self):
+        try:
+            crossroad_id = 1
+            for elem in [self.uia.crossroadList.item(i).text() for i in range(self.uia.crossroadList.count())]:
+                temp = elem.replace(',', '').replace('(', '').replace(')', '').split()
+                longitude = temp[0]
+                latitude = temp[1]
+
+                sqlite_insert_query = """INSERT INTO crossroads (crossroad_id, street,
+                 longitude, latitude, trafficLights) VALUES (?, ?, ?, ?, ?);"""
+                data = (crossroad_id, "", longitude, latitude, 0)
+                self.sql.execute(sqlite_insert_query, data)
+                self.db.commit()
+                crossroad_id += 1
+        except sqlite3.Error as error:
+            print("Ошибка при работе с SQLite", error)
+        finally:
+            print("Данные успешно загружены!")
+
+    def save_time(self):
+        try:
+            time_id = 1
+            for elem in [self.uia.timeList.item(i).text() for i in range(self.uia.crossroadList.count())]:
+                time = elem
+                sqlite_insert_query = """INSERT INTO times (time_id, time) VALUES (?, ?);"""
+                data = (time_id, time)
+                self.sql.execute(sqlite_insert_query, data)
+                self.db.commit()
+                time_id += 1
+        except sqlite3.Error as error:
+            print("Ошибка при работе с SQLite", error)
+        finally:
+            print("Данные успешно загружены!")
+
+    def save_date(self):
+        pass
