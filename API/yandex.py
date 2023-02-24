@@ -12,9 +12,10 @@ def get_map(longitude, latitude, map_parameters, scale):
     draw_dot(name)
 
 
+
 def draw_dot(name):
     image = Image.open(name)
     draw = ImageDraw.Draw(image)
     draw.line((325, 220, 325, 230), fill=(0, 0, 0), width=1)
     draw.line((320, 225, 330, 225), fill=(0, 0, 0), width=1)
-    image.save(name, quality=100)
+    image.save(name)

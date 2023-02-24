@@ -30,7 +30,7 @@ class UiA(QtWidgets.QDialog, Form):
     def __init__(self, parent=None):
         super(UiA, self).__init__(parent)
         self.map = 'map,trf'
-        self.scale = 1
+        self.scale = 1.3
         self.kx = 0.00002133
         self.ky = 0.0000135
 
@@ -61,6 +61,27 @@ class UiA(QtWidgets.QDialog, Form):
         self.uia.comboBox.currentIndexChanged.connect(self.view)
 
         self.uia.imageMap.setCursor(QtCore.Qt.CrossCursor)
+        self.uia.imageMap.setFocus()
+
+    def keyPressEvent(self, e):
+        self.uia.imageMap.setFocus()
+        if e.key() == 87:  # W
+            self.new_latitude = str(round(float(self.uia.latitudeEdit.text()) + 0.00005, 6))
+        elif e.key() == 65:  # A
+            self.new_longitude = str(round(float(self.uia.longitudeEdit.text()) - 0.00005, 6))
+        elif e.key() == 83:  # S
+            self.new_latitude = str(round(float(self.uia.latitudeEdit.text()) - 0.00005, 6))
+        elif e.key() == 68:  # D
+            self.new_longitude = str(round(float(self.uia.longitudeEdit.text()) + 0.00005, 6))
+        elif e.key() == 16777235:  # ^
+            self.new_latitude = str(round(float(self.uia.latitudeEdit.text()) + 0.005, 6))
+        elif e.key() == 16777236:  # ->
+            self.new_longitude = str(round(float(self.uia.longitudeEdit.text()) + 0.005, 6))
+        elif e.key() == 16777237:  # v
+            self.new_latitude = str(round(float(self.uia.latitudeEdit.text()) - 0.005, 6))
+        elif e.key() == 16777234:  # <-
+            self.new_longitude = str(round(float(self.uia.longitudeEdit.text()) - 0.005, 6))
+        self.load_map()
 
     def view(self):
         if self.uia.comboBox.currentIndex() == 0:
@@ -81,12 +102,8 @@ class UiA(QtWidgets.QDialog, Form):
         self.new_longitude = round(float(self.uia.longitudeEdit.text()) + self.x * self.kx, 6)
         self.new_latitude = round(float(self.uia.latitudeEdit.text()) + self.y * self.ky, 6)
 
-        self.uia.longitudeEdit.setText(f"{self.new_longitude}")
-        self.uia.latitudeEdit.setText(f"{self.new_latitude}")
-
         self.center = f"({self.uia.longitudeEdit.text()}, {self.uia.latitudeEdit.text()})"
         self.load_map()
-
 
     def showEvent(self, event):
         self.new_longitude = self.uia.longitudeEdit.text()
@@ -108,15 +125,16 @@ class UiA(QtWidgets.QDialog, Form):
         self.uia.coor.setText(f"{round(float(self.uia.longitudeEdit.text()) + self.x * self.kx, 6)}\n"
                               f"{round(float(self.uia.latitudeEdit.text()) + self.y * self.ky, 6)}")
 
-
     def load_map(self):
+        self.uia.longitudeEdit.setText(f"{self.new_longitude}")
+        self.uia.latitudeEdit.setText(f"{self.new_latitude}")
+
         get_map(self.new_longitude, self.new_latitude, self.map, self.scale)
         self.uia.imageMap.setPixmap(QPixmap("data/map.png"))
 
     def add_bad_road(self):
         self.uia.badRoadList.addItem(self.center)
         self.load_map()
-
 
     def add_road(self):
         self.uia.roadList.addItem(self.center)
