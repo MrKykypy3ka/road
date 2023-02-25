@@ -199,7 +199,6 @@ class UiA(QtWidgets.QDialog, Form):
                 temp = elem.replace(',', '').replace('(', '').replace(')', '').split()
                 longitude = temp[0]
                 latitude = temp[1]
-
                 sqlite_insert_query = """INSERT INTO crossroads (crossroad_id, street,
                  longitude, latitude, trafficLights) VALUES (?, ?, ?, ?, ?);"""
                 data = (crossroad_id, "", longitude, latitude, 0)
