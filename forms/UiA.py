@@ -55,7 +55,7 @@ class UiA(QtWidgets.QDialog, Form):
         self.new_longitude = self.uia.longitudeEdit.text()
         self.new_latitude = self.uia.latitudeEdit.text()
 
-        self.db = sqlite3.connect('load.db')
+        self.db = sqlite3.connect('db/load.db')
         self.sql = self.db.cursor()
 
         self.uia.comboBox.currentIndexChanged.connect(self.view)
