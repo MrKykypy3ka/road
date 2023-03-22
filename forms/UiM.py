@@ -1,8 +1,8 @@
 from PyQt5 import uic, QtWidgets, QtCore
-from forms.main_form import Ui_mainForm
-from forms.UiA import UiA
+from UI.main_form import Ui_mainForm
+from forms.UiL import UiL
 
-Form, Window = uic.loadUiType("forms/main_form.ui")
+Form, Window = uic.loadUiType("UI/main_form.ui")
 
 
 class UiM(QtWidgets.QDialog, Form):
@@ -13,10 +13,11 @@ class UiM(QtWidgets.QDialog, Form):
         self.initUI()
         self.setWindowFlags(QtCore.Qt.WindowCloseButtonHint)
         self.setFixedSize(self.width(), self.height())
-        self.addForm = UiA(self)
+        self.listForm = None
 
     def button_pressed2(self):
-        self.addForm.show()
+        self.listForm = UiL(self)
+        self.listForm.show()
 
     def initUI(self):
         self.uim.pushButton_2.clicked.connect(self.button_pressed2)

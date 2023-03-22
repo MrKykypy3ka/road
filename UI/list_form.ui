@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>listForm</class>
+ <widget class="QWidget" name="listForm">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>472</width>
+    <height>251</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Конфигурация анализа</string>
+  </property>
+  <property name="windowIcon">
+   <iconset resource="../images/image.qrc">
+    <normaloff>:/icons/ico.ico</normaloff>:/icons/ico.ico</iconset>
+  </property>
+  <widget class="QPushButton" name="viewGroupButton">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>190</y>
+     <width>131</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Редактировать</string>
+   </property>
+  </widget>
+  <widget class="QDateEdit" name="dateEdit_2">
+   <property name="geometry">
+    <rect>
+     <x>300</x>
+     <y>80</y>
+     <width>161</width>
+     <height>22</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="addGroupButton">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>220</y>
+     <width>131</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Добавть</string>
+   </property>
+  </widget>
+  <widget class="QListWidget" name="groupList">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>30</y>
+     <width>131</width>
+     <height>151</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QDateEdit" name="dateEdit">
+   <property name="geometry">
+    <rect>
+     <x>300</x>
+     <y>30</y>
+     <width>161</width>
+     <height>22</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_7">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>0</y>
+     <width>141</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Группы участков&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+   </property>
+  </widget>
+  <widget class="QListWidget" name="timeList">
+   <property name="geometry">
+    <rect>
+     <x>160</x>
+     <y>30</y>
+     <width>131</width>
+     <height>151</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="addTimeButton">
+   <property name="geometry">
+    <rect>
+     <x>160</x>
+     <y>220</y>
+     <width>131</width>
+     <height>23</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Добавить время</string>
+   </property>
+  </widget>
+  <widget class="QTimeEdit" name="timeEdit">
+   <property name="geometry">
+    <rect>
+     <x>160</x>
+     <y>190</y>
+     <width>131</width>
+     <height>22</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_4">
+   <property name="geometry">
+    <rect>
+     <x>160</x>
+     <y>2</y>
+     <width>141</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Время сбора данных</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_5">
+   <property name="geometry">
+    <rect>
+     <x>300</x>
+     <y>0</y>
+     <width>161</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Дата начала сбора данных</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_6">
+   <property name="geometry">
+    <rect>
+     <x>300</x>
+     <y>50</y>
+     <width>161</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Дата окончания сбора данных</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="saveButton">
+   <property name="geometry">
+    <rect>
+     <x>300</x>
+     <y>170</y>
+     <width>161</width>
+     <height>71</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Сохранить конфигурацию</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="delAreaButton">
+   <property name="geometry">
+    <rect>
+     <x>300</x>
+     <y>110</y>
+     <width>161</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Удалить группу</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="delTimeButton">
+   <property name="geometry">
+    <rect>
+     <x>300</x>
+     <y>140</y>
+     <width>161</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Удалить время</string>
+   </property>
+  </widget>
+ </widget>
+ <resources>
+  <include location="../images/image.qrc"/>
+ </resources>
+ <connections/>
+</ui>

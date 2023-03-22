@@ -1,11 +1,13 @@
-from PyQt5 import uic, QtWidgets, QtCore
-from forms.add_Form import Ui_addForm
+import json
+
+from PyQt5 import uic, QtWidgets, QtCore, QtGui
+from UI.add_form import Ui_addForm
 from PyQt5.QtGui import QPixmap
 from API.yandex import get_map
 import sqlite3
+import json
 
-Form, Window = uic.loadUiType("forms/add_form.ui")
-
+Form, Window = uic.loadUiType("UI/add_form.ui")
 
 class MouseTracker(QtCore.QObject):
     positionChanged = QtCore.pyqtSignal(QtCore.QPoint)
@@ -39,13 +41,14 @@ class UiA(QtWidgets.QDialog, Form):
         self.pos_x = None
         self.pos_y = None
 
+        self.data = {}
+
         self.center = None
         self.uia = Ui_addForm()
         self.uia.setupUi(self)
         self.uia.addBadRoadButton.clicked.connect(self.add_bad_road)
         self.uia.addRoadButton.clicked.connect(self.add_road)
         self.uia.addCrossroadButton.clicked.connect(self.add_crossroad)
-        self.uia.addTimeButton.clicked.connect(self.add_time)
         self.uia.imageMap.clicked.connect(self.map_click)
 
         self.uia.saveButton.clicked.connect(self.save)
@@ -62,6 +65,7 @@ class UiA(QtWidgets.QDialog, Form):
 
         self.uia.imageMap.setCursor(QtCore.Qt.CrossCursor)
         self.uia.imageMap.setFocus()
+
 
     def keyPressEvent(self, e):
         self.uia.imageMap.setFocus()
@@ -86,13 +90,15 @@ class UiA(QtWidgets.QDialog, Form):
     def view(self):
         if self.uia.comboBox.currentIndex() == 0:
             self.map = 'map,trf'
-            self.scale = 1
+            self.scale = 1.3
         elif self.uia.comboBox.currentIndex() == 1:
             self.map = 'map'
             self.scale = 1
         elif self.uia.comboBox.currentIndex() == 2:
             self.map = 'trf'
-            self.scale = 1
+            self.scale = 1.3
+        # self.kx = 0.00002133 / self.scale
+        # self.ky = 0.0000135 / self.scale
         self.load_map()
 
     def map_click(self):
@@ -102,12 +108,14 @@ class UiA(QtWidgets.QDialog, Form):
         self.new_longitude = round(float(self.uia.longitudeEdit.text()) + self.x * self.kx, 6)
         self.new_latitude = round(float(self.uia.latitudeEdit.text()) + self.y * self.ky, 6)
 
-        self.center = f"({self.uia.longitudeEdit.text()}, {self.uia.latitudeEdit.text()})"
+        self.center = (float(self.uia.longitudeEdit.text()), float(self.uia.latitudeEdit.text()))
         self.load_map()
 
     def showEvent(self, event):
         self.new_longitude = self.uia.longitudeEdit.text()
         self.new_latitude = self.uia.latitudeEdit.text()
+        with open('data/data.json', 'r') as file:
+            self.data = json.load(file)
         self.load_map()
 
     @QtCore.pyqtSlot(QtCore.QPoint)
@@ -133,26 +141,30 @@ class UiA(QtWidgets.QDialog, Form):
         self.uia.imageMap.setPixmap(QPixmap("data/map.png"))
 
     def add_bad_road(self):
-        self.uia.badRoadList.addItem(self.center)
+        self.uia.badRoadList.addItem(f"{self.center}")
+        self.data[f"area {len(self.data)}"]["bad"].append(self.center)
         self.load_map()
 
     def add_road(self):
-        self.uia.roadList.addItem(self.center)
+        self.uia.roadList.addItem(f"{self.center}")
+        self.data[f"area {len(self.data)}"]["road"].append(self.center)
         self.load_map()
 
     def add_crossroad(self):
-        self.uia.crossroadList.addItem(self.center)
+        self.uia.crossroadList.addItem(f"{self.center}")
+        self.data[f"area {len(self.data)}"]["crossroad"].append(self.center)
         self.load_map()
 
-    def add_time(self):
-        self.uia.timeList.addItem(self.uia.timeEdit.time().toString('hh:mm'))
-
     def save(self):
-        self.save_bad_sections()
-        self.save_road()
-        self.save_crossroad()
-        self.save_time()
-        self.save_date()
+        # self.save_bad_sections()
+        # self.save_road()
+        # self.save_crossroad()
+        # self.save_time()
+        # self.save_date()
+        with open('data/data.json', 'w', encoding='utf-8') as out_file:
+            json.dump(self.data, out_file, separators=(', ', ': '), indent=4, ensure_ascii=False)
+        self.close()
+
 
     def save_bad_sections(self):
         try:
@@ -209,21 +221,3 @@ class UiA(QtWidgets.QDialog, Form):
             print("Ошибка при работе с SQLite", error)
         finally:
             print("Данные успешно загружены!")
-
-    def save_time(self):
-        try:
-            time_id = 1
-            for elem in [self.uia.timeList.item(i).text() for i in range(self.uia.crossroadList.count())]:
-                time = elem
-                sqlite_insert_query = """INSERT INTO times (time_id, time) VALUES (?, ?);"""
-                data = (time_id, time)
-                self.sql.execute(sqlite_insert_query, data)
-                self.db.commit()
-                time_id += 1
-        except sqlite3.Error as error:
-            print("Ошибка при работе с SQLite", error)
-        finally:
-            print("Данные успешно загружены!")
-
-    def save_date(self):
-        pass
