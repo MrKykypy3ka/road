@@ -108,7 +108,7 @@ class UiA(QtWidgets.QDialog, Form):
         self.new_longitude = round(float(self.uia.longitudeEdit.text()) + self.x * self.kx, 6)
         self.new_latitude = round(float(self.uia.latitudeEdit.text()) + self.y * self.ky, 6)
 
-        self.center = (float(self.uia.longitudeEdit.text()), float(self.uia.latitudeEdit.text()))
+        self.center = self.uia.longitudeEdit.text() + " " + self.uia.latitudeEdit.text()
         self.load_map()
 
     def showEvent(self, event):
@@ -117,6 +117,15 @@ class UiA(QtWidgets.QDialog, Form):
         with open('data/data.json', 'r') as file:
             self.data = json.load(file)
         self.load_map()
+
+    def showEdit(self, area=None):
+        self.show()
+        with open("data/data.json") as file:
+            temp = json.load(file)
+            self.data = temp[area]
+        self.uia.badRoadList.addItems(self.data['bad'])
+        self.uia.roadList.addItems(self.data['road'])
+        self.uia.crossroadList.addItems(self.data['crossroad'])
 
     @QtCore.pyqtSlot(QtCore.QPoint)
     def on_positionChanged(self, pos):
@@ -164,7 +173,6 @@ class UiA(QtWidgets.QDialog, Form):
         with open('data/data.json', 'w', encoding='utf-8') as out_file:
             json.dump(self.data, out_file, separators=(', ', ': '), indent=4, ensure_ascii=False)
         self.close()
-
 
     def save_bad_sections(self):
         try:
