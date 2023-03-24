@@ -1,8 +1,8 @@
-from PyQt5 import uic, QtWidgets, QtCore
-from UI.main_form import Ui_mainForm
-from forms.UiL import UiL
+from UI.forms.main_form import Ui_mainForm
+from PyQt5 import QtWidgets, QtCore, uic
+from UI.UiL import UiL
 
-Form, Window = uic.loadUiType("UI/main_form.ui")
+Form, Window = uic.loadUiType("UI/forms/main_form.ui")
 
 
 class UiM(QtWidgets.QDialog, Form):

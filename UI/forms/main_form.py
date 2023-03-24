@@ -118,7 +118,6 @@ class Ui_mainForm(object):
         self.label_6.setText(_translate("Dialog", "<html><head/><body><p align=\"center\">Проектирование</p></body></html>"))
         self.label_7.setText(_translate("Dialog", "<html><head/><body><p align=\"center\">Архив</p></body></html>"))
         self.label_8.setText(_translate("Dialog", "<html><head/><body><p align=\"center\">Визуализация</p></body></html>"))
-import image_rc
 
 
 if __name__ == "__main__":

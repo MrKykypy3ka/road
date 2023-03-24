@@ -3,6 +3,7 @@ import sqlite3
 db = sqlite3.connect("load.db")
 sql = db.cursor()
 
+
 def download_streets():
     with open("data/streetsBlag.txt", "r", encoding="utf-8") as file:
         s_id = 1

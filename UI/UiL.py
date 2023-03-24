@@ -1,13 +1,9 @@
-from PyQt5 import uic, QtWidgets, QtCore
-from UI.list_form import Ui_listForm
-from forms.UiA import UiA
-from PyQt5.QtGui import QPixmap
-from API.yandex import get_map
-import sqlite3
+from PyQt5 import uic, QtWidgets
+from UI.forms.list_form import Ui_listForm
+from UI.UiA import UiA
 import json
-import os
 
-Form, Window = uic.loadUiType("UI/list_form.ui")
+Form, Window = uic.loadUiType("UI/forms/list_form.ui")
 
 class UiL(QtWidgets.QDialog, Form):
     def __init__(self, parent=None):
@@ -24,19 +20,7 @@ class UiL(QtWidgets.QDialog, Form):
 
     def save_time(self):
         self.uil.timeList.addItem(self.uil.timeEdit.text())
-        # try:
-        #     time_id = 1
-        #     for elem in [self.uia.timeList.item(i).text() for i in range(self.uia.crossroadList.count())]:
-        #         time = elem
-        #         sqlite_insert_query = """INSERT INTO times (time_id, time) VALUES (?, ?);"""
-        #         data = (time_id, time)
-        #         self.sql.execute(sqlite_insert_query, data)
-        #         self.db.commit()
-        #         time_id += 1
-        # except sqlite3.Error as error:
-        #     print("Ошибка при работе с SQLite", error)
-        # finally:
-        #     print("Данные успешно загружены!")
+
 
     def new_area(self):
         if len(self.data) == self.count_area:

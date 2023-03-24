@@ -71,7 +71,7 @@ class Ui_listForm(object):
         _translate = QtCore.QCoreApplication.translate
         listForm.setWindowTitle(_translate("listForm", "Конфигурация анализа"))
         self.viewGroupButton.setText(_translate("listForm", "Редактировать"))
-        self.addGroupButton.setText(_translate("listForm", "Добавть"))
+        self.addGroupButton.setText(_translate("listForm", "Добавить"))
         self.label_7.setText(_translate("listForm", "<html><head/><body><p>Группы участков</p></body></html>"))
         self.addTimeButton.setText(_translate("listForm", "Добавить время"))
         self.label_4.setText(_translate("listForm", "Время сбора данных"))
@@ -80,7 +80,6 @@ class Ui_listForm(object):
         self.saveButton.setText(_translate("listForm", "Сохранить конфигурацию"))
         self.delAreaButton.setText(_translate("listForm", "Удалить группу"))
         self.delTimeButton.setText(_translate("listForm", "Удалить время"))
-import image_rc
 
 
 if __name__ == "__main__":

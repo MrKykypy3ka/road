@@ -1,4 +1,4 @@
-from forms.UiM import UiM
+from UI.UiM import UiM
 from PyQt5 import QtWidgets
 import sys
 
