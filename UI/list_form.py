@@ -71,7 +71,7 @@ class Ui_listForm(object):
         _translate = QtCore.QCoreApplication.translate
         listForm.setWindowTitle(_translate("listForm", "Конфигурация анализа"))
         self.viewGroupButton.setText(_translate("listForm", "Редактировать"))
-        self.addGroupButton.setText(_translate("listForm", "Добавть"))
+        self.addGroupButton.setText(_translate("listForm", "Добавить"))
         self.label_7.setText(_translate("listForm", "<html><head/><body><p>Группы участков</p></body></html>"))
         self.addTimeButton.setText(_translate("listForm", "Добавить время"))
         self.label_4.setText(_translate("listForm", "Время сбора данных"))

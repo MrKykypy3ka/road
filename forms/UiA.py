@@ -1,10 +1,7 @@
-import json
-
-from PyQt5 import uic, QtWidgets, QtCore, QtGui
+from PyQt5 import uic, QtWidgets, QtCore
 from UI.add_form import Ui_addForm
 from PyQt5.QtGui import QPixmap
 from API.yandex import get_map
-import sqlite3
 import json
 
 Form, Window = uic.loadUiType("UI/add_form.ui")
@@ -57,9 +54,6 @@ class UiA(QtWidgets.QDialog, Form):
 
         self.new_longitude = self.uia.longitudeEdit.text()
         self.new_latitude = self.uia.latitudeEdit.text()
-
-        self.db = sqlite3.connect('db/load.db')
-        self.sql = self.db.cursor()
 
         self.uia.comboBox.currentIndexChanged.connect(self.view)
 
@@ -165,67 +159,6 @@ class UiA(QtWidgets.QDialog, Form):
         self.load_map()
 
     def save(self):
-        # self.save_bad_sections()
-        # self.save_road()
-        # self.save_crossroad()
-        # self.save_time()
-        # self.save_date()
         with open('data/data.json', 'w', encoding='utf-8') as out_file:
             json.dump(self.data, out_file, separators=(', ', ': '), indent=4, ensure_ascii=False)
         self.close()
-
-    def save_bad_sections(self):
-        try:
-            badSection_id = 1
-            for elem in [self.uia.badRoadList.item(i).text() for i in range(self.uia.badRoadList.count())]:
-                temp = elem.replace(',', '').replace('(', '').replace(')', '').split()
-                longitude = temp[0]
-                latitude = temp[1]
-
-                sqlite_insert_query = """INSERT INTO badSections (badSection_id, street,
-                 longitude, latitude, count_lane, max_speed) VALUES (?, ?, ?, ?, ?, ?);"""
-                data = (badSection_id, "", longitude, latitude, 0, 0)
-                self.sql.execute(sqlite_insert_query, data)
-                self.db.commit()
-                badSection_id += 1
-        except sqlite3.Error as error:
-            print("Ошибка при работе с SQLite", error)
-        finally:
-            print("Данные успешно загружены!")
-
-    def save_road(self):
-        try:
-            road_id = 1
-            for elem in [self.uia.roadList.item(i).text() for i in range(self.uia.roadList.count())]:
-                temp = elem.replace(',', '').replace('(', '').replace(')', '').split()
-                longitude = temp[0]
-                latitude = temp[1]
-
-                sqlite_insert_query = """INSERT INTO roads (road_id, street,
-                 longitude, latitude, count_lanes, max_speed) VALUES (?, ?, ?, ?, ?, ?);"""
-                data = (road_id, "", longitude, latitude, 0, 0)
-                self.sql.execute(sqlite_insert_query, data)
-                self.db.commit()
-                road_id += 1
-        except sqlite3.Error as error:
-            print("Ошибка при работе с SQLite", error)
-        finally:
-            print("Данные успешно загружены!")
-
-    def save_crossroad(self):
-        try:
-            crossroad_id = 1
-            for elem in [self.uia.crossroadList.item(i).text() for i in range(self.uia.crossroadList.count())]:
-                temp = elem.replace(',', '').replace('(', '').replace(')', '').split()
-                longitude = temp[0]
-                latitude = temp[1]
-                sqlite_insert_query = """INSERT INTO crossroads (crossroad_id, street,
-                 longitude, latitude, trafficLights) VALUES (?, ?, ?, ?, ?);"""
-                data = (crossroad_id, "", longitude, latitude, 0)
-                self.sql.execute(sqlite_insert_query, data)
-                self.db.commit()
-                crossroad_id += 1
-        except sqlite3.Error as error:
-            print("Ошибка при работе с SQLite", error)
-        finally:
-            print("Данные успешно загружены!")
