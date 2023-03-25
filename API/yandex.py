@@ -3,7 +3,7 @@ import shutil
 from PIL import Image, ImageDraw
 
 def get_map(longitude, latitude, map_parameters, scale, longitude_spn=0.005, latitude_spn=0.005, w=649, h=449):
-    name = 'data/map.png'
+    name = 'data/result/map.png'
     link = f'https://static-maps.yandex.ru/1.x/?ll={longitude},{latitude}' \
            f'&size={w},{h}&spn={longitude_spn},{latitude_spn}&l={map_parameters}&scale={scale}'
     question = requests.get(url=link, stream=True)

@@ -46,6 +46,11 @@ class UiA(QtWidgets.QDialog, Form):
         self.uia.addBadRoadButton.clicked.connect(self.add_bad_road)
         self.uia.addRoadButton.clicked.connect(self.add_road)
         self.uia.addCrossroadButton.clicked.connect(self.add_crossroad)
+
+        self.uia.delBadButton.clicked.connect(self.del_bad_road)
+        self.uia.delRoadButton.clicked.connect(self.del_road)
+        self.uia.delCrossroadButton.clicked.connect(self.del_crossroad)
+
         self.uia.imageMap.clicked.connect(self.map_click)
 
         self.uia.saveButton.clicked.connect(self.save)
@@ -108,13 +113,13 @@ class UiA(QtWidgets.QDialog, Form):
     def showEvent(self, event):
         self.new_longitude = self.uia.longitudeEdit.text()
         self.new_latitude = self.uia.latitudeEdit.text()
-        with open('data/data.json', 'r') as file:
+        with open('data/result/data.json', 'r') as file:
             self.data = json.load(file)
         self.load_map()
 
     def showEdit(self, area=None):
         self.show()
-        with open("data/data.json") as file:
+        with open("data/result/data.json") as file:
             temp = json.load(file)
             self.data = temp[area]
         self.uia.badRoadList.addItems(self.data['bad'])
@@ -141,7 +146,7 @@ class UiA(QtWidgets.QDialog, Form):
         self.uia.latitudeEdit.setText(f"{self.new_latitude}")
 
         get_map(self.new_longitude, self.new_latitude, self.map, self.scale)
-        self.uia.imageMap.setPixmap(QPixmap("data/map.png"))
+        self.uia.imageMap.setPixmap(QPixmap("data/result/map.png"))
 
     def add_bad_road(self):
         self.uia.badRoadList.addItem(f"{self.center}")
@@ -158,7 +163,34 @@ class UiA(QtWidgets.QDialog, Form):
         self.data[f"area {len(self.data)}"]["crossroad"].append(self.center)
         self.load_map()
 
+    def del_bad_road(self):
+        if self.uia.badRoadList.currentIndex().data() is not None:
+            temp = list()
+            for i in range(self.uia.badRoadList.count()):
+                temp.append(self.uia.badRoadList.item(i).text())
+            temp.remove(self.uia.badRoadList.currentIndex().data())
+            self.uia.badRoadList.clear()
+            self.uia.badRoadList.addItems(temp)
+
+    def del_road(self):
+        if self.uia.roadList.currentIndex().data() is not None:
+            temp = list()
+            for i in range(self.uia.roadList.count()):
+                temp.append(self.uia.roadList.item(i).text())
+            temp.remove(self.uia.roadList.currentIndex().data())
+            self.uia.roadList.clear()
+            self.uia.roadList.addItems(temp)
+
+    def del_crossroad(self):
+        if self.uia.crossroadList.currentIndex().data() is not None:
+            temp = list()
+            for i in range(self.uia.crossroadList.count()):
+                temp.append(self.uia.crossroadList.item(i).text())
+            temp.remove(self.uia.crossroadList.currentIndex().data())
+            self.uia.crossroadList.clear()
+            self.uia.crossroadList.addItems(temp)
+
     def save(self):
-        with open('data/data.json', 'w', encoding='utf-8') as out_file:
+        with open('data/result/data.json', 'w', encoding='utf-8') as out_file:
             json.dump(self.data, out_file, separators=(', ', ': '), indent=4, ensure_ascii=False)
         self.close()
