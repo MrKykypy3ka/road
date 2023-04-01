@@ -62,8 +62,8 @@ class UiL(QtWidgets.QDialog, Form):
             self.uil.timeList.addItems(temp)
 
     def save(self):
-        print([self.uil.dateEdit.text(), self.uil.dateEdit.text()])
-        print([self.uil.timeList.item(i).text() for i in range(self.uil.timeList.count())])
+        with open('data/result/data.json') as file:
+            self.data = json.load(file)
         self.data[f"settings"] = {
             "date": [self.uil.dateEdit.text(), self.uil.dateEdit.text()],
             "time": [self.uil.timeList.item(i).text() for i in range(self.uil.timeList.count())]}
