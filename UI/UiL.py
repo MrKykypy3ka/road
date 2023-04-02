@@ -1,8 +1,11 @@
+import datetime
+
 from PyQt5 import uic, QtWidgets
 from UI.forms.list_form import Ui_listForm
 from PyQt5.QtCore import *
 from UI.UiA import UiA
 import json
+from time import *
 
 Form, Window = uic.loadUiType("UI/forms/list_form.ui")
 
@@ -20,8 +23,11 @@ class UiL(QtWidgets.QDialog, Form):
         self.uil.delTimeButton.clicked.connect(self.del_time)
         self.count_area = 0
         self.data = {}
-        # dateedit.setMinimumDate(QDate(1900, 1, 1))
-        # dateedit.setMaximumDate(QDate(2100, 12, 31))
+        y, m, d = map(int, str(datetime.date.today()).split('-'))
+        self.uil.dateEdit.setMinimumDate(QDate(y, m, d))
+        self.uil.dateEdit.setMaximumDate(QDate(y+100, 12, 31))
+        self.uil.dateEdit_2.setMinimumDate(QDate(y, m, d+1))
+        self.uil.dateEdit_2.setMaximumDate(QDate(y+100, 12, 31))
 
     def save_time(self):
         self.uil.timeList.addItem(self.uil.timeEdit.text())

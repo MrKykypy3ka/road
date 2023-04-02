@@ -4,9 +4,23 @@ from UI.forms.main_form import Ui_mainForm
 from PyQt5 import QtWidgets, QtCore, uic
 from UI.UiL import UiL
 import json
+import socket
 
 
 Form, Window = uic.loadUiType("UI/forms/main_form.ui")
+
+
+def send_data(filename):
+    try:
+        HOST = '192.168.50.69'
+        PORT = 7000
+        with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
+            s.connect((HOST, PORT))
+            with open(filename, 'rb') as f:
+                file_data = f.read()
+                s.sendall(file_data)
+    except socket.error as error:
+        print(error)
 
 
 class UiM(QtWidgets.QDialog, Form):
@@ -20,36 +34,31 @@ class UiM(QtWidgets.QDialog, Form):
         self.setFixedSize(self.width(), self.height())
         self.listForm = None
 
-    def slow_list_form(self):
+    def show_list_form(self):
         self.listForm = UiL(self)
         self.listForm.show()
 
+    def show_list_edit_form(self):
+        filename = self.choice_data('JSON (*.json)')
+        self.listForm = UiL(self)
+        self.listForm.load_data(filename)
 
-    def send_data(self):
-        import socket
+    def show_send_form(self):
+        filename = self.choice_data('JSON (*.json)')
+        send_data(filename)
 
-        s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        s.connect(('localhost', 3030))  # Подключаемся к нашему серверу.
-        with open('data/result/data.json') as file:
-            self.data = json.load(file)
-        s.sendall(self.data)  # Отправляем фразу.
-        data = s.recv(1024)  # Получаем данные из сокета.
-        s.close()
-
-
-    def choice_data(self):
+    def choice_data(self, typefile):
         filename, ok = QFileDialog.getOpenFileName(
             self,
             "Выберете файл конфигурации",
             "",
-            "JSON (*.json)"
+            typefile
         )
         if filename:
-            self.listForm = UiL(self)
-            self.listForm.load_data(filename)
+            return filename
 
 
     def initUI(self):
-        self.uim.pushButton_2.clicked.connect(self.slow_list_form)
-        self.uim.pushButton_5.clicked.connect(self.send_data)
-        self.uim.pushButton_3.clicked.connect(self.choice_data)
+        self.uim.pushButton_2.clicked.connect(self.show_list_form)
+        self.uim.pushButton_5.clicked.connect(self.show_send_form)
+        self.uim.pushButton_3.clicked.connect(self.show_list_edit_form)
