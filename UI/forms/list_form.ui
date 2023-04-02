@@ -14,7 +14,7 @@
    <string>Конфигурация анализа</string>
   </property>
   <property name="windowIcon">
-   <iconset resource="../images/image.qrc">
+   <iconset>
     <normaloff>:/icons/ico.ico</normaloff>:/icons/ico.ico</iconset>
   </property>
   <widget class="QPushButton" name="viewGroupButton">
@@ -38,6 +38,23 @@
      <width>161</width>
      <height>22</height>
     </rect>
+   </property>
+   <property name="dateTime">
+    <datetime>
+     <hour>0</hour>
+     <minute>0</minute>
+     <second>0</second>
+     <year>2023</year>
+     <month>1</month>
+     <day>1</day>
+    </datetime>
+   </property>
+   <property name="minimumDate">
+    <date>
+     <year>2023</year>
+     <month>1</month>
+     <day>1</day>
+    </date>
    </property>
   </widget>
   <widget class="QPushButton" name="addGroupButton">
@@ -71,6 +88,23 @@
      <width>161</width>
      <height>22</height>
     </rect>
+   </property>
+   <property name="dateTime">
+    <datetime>
+     <hour>0</hour>
+     <minute>0</minute>
+     <second>0</second>
+     <year>2023</year>
+     <month>1</month>
+     <day>1</day>
+    </datetime>
+   </property>
+   <property name="minimumDate">
+    <date>
+     <year>2023</year>
+     <month>1</month>
+     <day>1</day>
+    </date>
    </property>
   </widget>
   <widget class="QLabel" name="label_7">
@@ -136,9 +170,9 @@
    <property name="geometry">
     <rect>
      <x>300</x>
-     <y>0</y>
+     <y>10</y>
      <width>161</width>
-     <height>41</height>
+     <height>16</height>
     </rect>
    </property>
    <property name="text">
@@ -149,9 +183,9 @@
    <property name="geometry">
     <rect>
      <x>300</x>
-     <y>50</y>
+     <y>60</y>
      <width>161</width>
-     <height>41</height>
+     <height>16</height>
     </rect>
    </property>
    <property name="text">

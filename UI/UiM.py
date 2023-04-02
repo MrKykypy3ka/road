@@ -1,3 +1,5 @@
+from PyQt5.QtWidgets import QFileDialog
+
 from UI.forms.main_form import Ui_mainForm
 from PyQt5 import QtWidgets, QtCore, uic
 from UI.UiL import UiL
@@ -35,7 +37,19 @@ class UiM(QtWidgets.QDialog, Form):
         s.close()
 
 
+    def choice_data(self):
+        filename, ok = QFileDialog.getOpenFileName(
+            self,
+            "Выберете файл конфигурации",
+            "",
+            "JSON (*.json)"
+        )
+        if filename:
+            self.listForm = UiL(self)
+            self.listForm.load_data(filename)
+
 
     def initUI(self):
         self.uim.pushButton_2.clicked.connect(self.slow_list_form)
         self.uim.pushButton_5.clicked.connect(self.send_data)
+        self.uim.pushButton_3.clicked.connect(self.choice_data)
