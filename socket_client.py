@@ -1,7 +1,10 @@
+from dotenv import load_dotenv, find_dotenv
 import socket
+import os
 
-HOST = '192.168.50.69'  # Локальный IP-адрес
-PORT = 7000             # Порт
+load_dotenv(find_dotenv())
+HOST = os.getenv('HOST')
+PORT = int(os.getenv('PORT'))
 
 # Создаем сокет
 with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
