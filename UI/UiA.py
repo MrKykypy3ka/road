@@ -29,7 +29,7 @@ class UiA(QtWidgets.QDialog, Form):
     def __init__(self, parent=None):
         super(UiA, self).__init__(parent)
         self.map = 'map,trf'
-        self.scale = 1
+        self.scale = 2
         self.kx = 0.00002133
         self.ky = 0.0000135
 
@@ -64,6 +64,10 @@ class UiA(QtWidgets.QDialog, Form):
 
         self.uia.imageMap.setCursor(QtCore.Qt.CrossCursor)
         self.uia.imageMap.setFocus()
+
+        self.uia.badRoadList.itemDoubleClicked.connect(self.show_badRoad)
+        self.uia.roadList.itemDoubleClicked.connect(self.show_road)
+        self.uia.crossroadList.itemDoubleClicked.connect(self.show_crossroad)
 
 
     def keyPressEvent(self, e):
@@ -140,6 +144,17 @@ class UiA(QtWidgets.QDialog, Form):
 
         self.uia.coor.setText(f"{round(float(self.uia.longitudeEdit.text()) + self.x * self.kx, 6)}\n"
                               f"{round(float(self.uia.latitudeEdit.text()) + self.y * self.ky, 6)}")
+    def show_badRoad(self):
+        self.new_longitude, self.new_latitude = list(map(float, self.uia.badRoadList.currentIndex().data().split()))
+        self.load_map()
+
+    def show_road(self):
+        self.new_longitude, self.new_latitude = list(map(float, self.uia.roadList.currentIndex().data().split()))
+        self.load_map()
+
+    def show_crossroad(self):
+        self.new_longitude, self.new_latitude = list(map(float, self.uia.crossroadList.currentIndex().data().split()))
+        self.load_map()
 
     def load_map(self):
         self.uia.longitudeEdit.setText(f"{self.new_longitude}")
