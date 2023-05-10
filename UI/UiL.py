@@ -1,6 +1,8 @@
 import datetime
 
 from PyQt5 import uic, QtWidgets
+from PyQt5.QtWidgets import QInputDialog, QLineEdit
+
 from UI.forms.list_form import Ui_listForm
 from PyQt5.QtCore import *
 from UI.UiA import UiA
@@ -70,12 +72,18 @@ class UiL(QtWidgets.QDialog, Form):
             self.uil.timeList.addItems(temp)
 
     def save(self):
-        with open('data/result/data.json') as file:
+        filename = ''
+        text, ok = QInputDialog().getText(self, "Сохранение", "Имя конфигурации:", QLineEdit.Normal, "")
+        if ok and text:
+            filename = text
+        else:
+            return
+        with open(f'data/result/data.json') as file:
             self.data = json.load(file)
         self.data[f"settings"] = {
             "date": [self.uil.dateEdit.text(), self.uil.dateEdit.text()],
             "time": [self.uil.timeList.item(i).text() for i in range(self.uil.timeList.count())]}
-        with open('data/result/data.json', "w") as file:
+        with open(f'data/result/{filename}.json', "w") as file:
             json.dump(self.data, file, separators=(', ', ': '), indent=4, ensure_ascii=False)
         self.close()
 
