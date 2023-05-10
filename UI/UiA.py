@@ -93,13 +93,13 @@ class UiA(QtWidgets.QDialog, Form):
     def view(self):
         if self.uia.comboBox.currentIndex() == 0:
             self.map = 'map,trf'
-            self.scale = 1
+            self.scale = 2
         elif self.uia.comboBox.currentIndex() == 1:
             self.map = 'map'
             self.scale = 1
         elif self.uia.comboBox.currentIndex() == 2:
             self.map = 'trf'
-            self.scale = 1
+            self.scale = 4
         # self.kx = 0.00002133 / self.scale
         # self.ky = 0.0000135 / self.scale
         self.load_map()

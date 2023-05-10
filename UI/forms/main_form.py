@@ -20,6 +20,7 @@ class Ui_mainForm(object):
         Dialog.setWindowIcon(icon)
         self.pushButton = QtWidgets.QPushButton(Dialog)
         self.pushButton.setGeometry(QtCore.QRect(1210, 650, 61, 61))
+        self.pushButton.setStyleSheet("background-image: url(:/icons/que.png);background-color: rgba(255, 255, 255, 0);border: none;")
         self.pushButton.setObjectName("pushButton")
         self.pushButton_2 = HoverButton(Dialog)
         self.pushButton_2.setGeometry(QtCore.QRect(110, 550, 61, 61))
@@ -111,7 +112,6 @@ class Ui_mainForm(object):
     def retranslateUi(self, Dialog):
         _translate = QtCore.QCoreApplication.translate
         Dialog.setWindowTitle(_translate("Dialog", "Инструмент планирования"))
-        self.pushButton.setText(_translate("Dialog", "PushButton"))
         self.label_2.setText(_translate("Dialog", "<html><head/><body><p align=\"center\">Загрузить</p><p align=\"center\">данные</p></body></html>"))
         self.label_3.setText(_translate("Dialog", "<html><head/><body><p align=\"center\">Сбор данных</p></body></html>"))
         self.label_5.setText(_translate("Dialog", "<html><head/><body><p align=\"center\">Анализ</p></body></html>"))
