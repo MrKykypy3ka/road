@@ -23,6 +23,7 @@ class UiL(QtWidgets.QDialog, Form):
         self.uil.viewGroupButton.clicked.connect(self.edit_area)
         self.uil.delAreaButton.clicked.connect(self.del_area)
         self.uil.delTimeButton.clicked.connect(self.del_time)
+        self.uil.groupList.itemDoubleClicked.connect(self.rename_item)
         self.count_area = 0
         self.data = {}
         y, m, d = map(int, str(datetime.date.today()).split('-'))
@@ -30,6 +31,11 @@ class UiL(QtWidgets.QDialog, Form):
         self.uil.dateEdit.setMaximumDate(QDate(y+100, 12, 31))
         self.uil.dateEdit_2.setMinimumDate(QDate(y, m, d+1))
         self.uil.dateEdit_2.setMaximumDate(QDate(y+100, 12, 31))
+
+    def rename_item(self, name):
+        print(self.uil.groupList.currentItem().text())
+        temp = self.uil.groupList.items()
+        print(temp)
 
     def save_time(self):
         self.uil.timeList.addItem(self.uil.timeEdit.text())
