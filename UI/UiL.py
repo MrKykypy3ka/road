@@ -31,11 +31,21 @@ class UiL(QtWidgets.QDialog, Form):
         self.uil.dateEdit.setMaximumDate(QDate(y+100, 12, 31))
         self.uil.dateEdit_2.setMinimumDate(QDate(y, m, d+1))
         self.uil.dateEdit_2.setMaximumDate(QDate(y+100, 12, 31))
+        self.filename = None
 
     def rename_item(self, name):
-        print(self.uil.groupList.currentItem().text())
-        temp = self.uil.groupList.items()
-        print(temp)
+        text, ok = QInputDialog().getText(self, "Переименовать", "Имя участка:", QLineEdit.Normal, "")
+        if ok and text:
+            self.data[text] = self.data[self.uil.groupList.currentItem().text()]
+            del self.data[self.uil.groupList.currentItem().text()]
+            self.uil.groupList.clear()
+            for key in self.data:
+                if key != 'settings':
+                    self.uil.groupList.addItem(key)
+            with open(f'data/result/data.json', "w", encoding='utf-8') as file:
+                json.dump(self.data, file, separators=(', ', ': '), indent=4, ensure_ascii=True)
+        else:
+            return
 
     def save_time(self):
         self.uil.timeList.addItem(self.uil.timeEdit.text())
@@ -44,12 +54,12 @@ class UiL(QtWidgets.QDialog, Form):
         if len(self.data) == self.count_area:
             self.count_area += 1
         if not self.count_area == 1:
-            with open('data/result/data.json') as file:
+            with open('data/result/data.json', encoding='utf-8') as file:
                 self.data = json.load(file)
 
         self.data[f"area {self.count_area}"] = {"bad": [], "road": [], "crossroad": []}
-        with open('data/result/data.json', "w") as file:
-            json.dump(self.data, file, separators=(', ', ': '), indent=4, ensure_ascii=False)
+        with open('data/result/data.json', "w", encoding='utf-8') as file:
+            json.dump(self.data, file, separators=(', ', ': '), indent=4, ensure_ascii=True)
 
         self.addForm = UiA(self)
         self.addForm.show()
@@ -79,21 +89,22 @@ class UiL(QtWidgets.QDialog, Form):
 
     def save(self):
         filename = ''
-        text, ok = QInputDialog().getText(self, "Сохранение", "Имя конфигурации:", QLineEdit.Normal, "")
+        text, ok = QInputDialog().getText(self, "Сохранение", "Имя конфигурации:")
         if ok and text:
             filename = text
+            with open(f'data/result/data.json', encoding='utf-8') as file:
+                self.data = json.load(file)
+            self.data[f"settings"] = {
+                "date": [self.uil.dateEdit.text(), self.uil.dateEdit.text()],
+                "time": [self.uil.timeList.item(i).text() for i in range(self.uil.timeList.count())]}
+            with open(f'data/result/{filename}.json', "w", encoding='utf-8') as file:
+                json.dump(self.data, file, separators=(', ', ': '), indent=4, ensure_ascii=True)
+            self.close()
         else:
             return
-        with open(f'data/result/data.json') as file:
-            self.data = json.load(file)
-        self.data[f"settings"] = {
-            "date": [self.uil.dateEdit.text(), self.uil.dateEdit.text()],
-            "time": [self.uil.timeList.item(i).text() for i in range(self.uil.timeList.count())]}
-        with open(f'data/result/{filename}.json', "w") as file:
-            json.dump(self.data, file, separators=(', ', ': '), indent=4, ensure_ascii=False)
-        self.close()
 
     def load_data(self, filename):
+        self.filename = filename
         with open(filename) as file:
             self.data = json.load(file)
         self.show()
@@ -105,7 +116,5 @@ class UiL(QtWidgets.QDialog, Form):
                 self.uil.dateEdit_2.setDate(QDate(y, m, d))
                 for elem in self.data[key]['time']:
                     self.uil.timeList.addItem(elem)
-                break
-            self.uil.groupList.addItem(key)
-
-
+            else:
+                self.uil.groupList.addItem(key)
