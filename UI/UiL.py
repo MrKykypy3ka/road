@@ -89,7 +89,7 @@ class UiL(QtWidgets.QDialog, Form):
 
     def save(self):
         filename = ''
-        text, ok = QInputDialog().getText(self, "Сохранение", "Имя конфигурации:")
+        text, ok = QInputDialog().getText(self, "Сохранение", "Имя конфигурации:", QLineEdit.Normal, self.filename[self.filename.find('result/')+7:self.filename.find('.json')])
         if ok and text:
             filename = text
             with open(f'data/result/data.json', encoding='utf-8') as file:
