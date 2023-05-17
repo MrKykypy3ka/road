@@ -1,7 +1,7 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 
 
-class HoverButton(QtWidgets.QToolButton):
+class HoverButton(QtWidgets.QToolButton):  # Класс для круглых кнопок
     def __init__(self, parent=None):
         super(HoverButton, self).__init__(parent)
         self.setStyleSheet('''border-image: url("imagen.jpg")''')
@@ -11,8 +11,8 @@ class HoverButton(QtWidgets.QToolButton):
         QtWidgets.QToolButton.resizeEvent(self, event)
 
 
-class Ui_mainForm(object):
-    def setupUi(self, Dialog):
+class Ui_mainForm(object):  # Класс главного окна приложения
+    def setupUi(self, Dialog):  # Описание всех виджетов находящихся на окне
         Dialog.setObjectName("Dialog")
         Dialog.resize(1280, 720)
         icon = QtGui.QIcon()
@@ -109,7 +109,7 @@ class Ui_mainForm(object):
         self.retranslateUi(Dialog)
         QtCore.QMetaObject.connectSlotsByName(Dialog)
 
-    def retranslateUi(self, Dialog):
+    def retranslateUi(self, Dialog):  # Отображение надписей на виджетах
         _translate = QtCore.QCoreApplication.translate
         Dialog.setWindowTitle(_translate("Dialog", "Инструмент планирования"))
         self.label_2.setText(_translate("Dialog", "<html><head/><body><p align=\"center\">Загрузить</p><p align=\"center\">данные</p></body></html>"))
