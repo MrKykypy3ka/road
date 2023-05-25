@@ -8,6 +8,8 @@ class ClickedLabel(QtWidgets.QLabel):
     def mouseReleaseEvent(self, e):
         super().mouseReleaseEvent(e)
         self.clicked.emit()
+
+
 class Ui_addForm(object):
     def setupUi(self, addForm):
         addForm.setObjectName("addForm")
@@ -84,15 +86,15 @@ class Ui_addForm(object):
     def retranslateUi(self, addForm):
         _translate = QtCore.QCoreApplication.translate
         addForm.setWindowTitle(_translate("addForm", "Добавить данные"))
-        self.addRoadButton.setText(_translate("addForm", "Добавить объезд"))
+        self.addRoadButton.setText(_translate("addForm", "Добавить участок"))
         self.addCrossroadButton.setText(_translate("addForm", "Добавить перекрёсток"))
         self.latitudeEdit.setText(_translate("addForm", "50.25958"))
         self.longitudeEdit.setText(_translate("addForm", "127.54389"))
         self.label.setText(_translate("addForm", "Долгота:"))
         self.label_2.setText(_translate("addForm", "Широта:"))
         self.label_3.setText(_translate("addForm", "<html><head/><body><p>Ремонтируемые участки</p></body></html>"))
-        self.label_5.setText(_translate("addForm", "Улицы для объезда"))
-        self.label_6.setText(_translate("addForm", "Перекрёстки для объезда"))
+        self.label_5.setText(_translate("addForm", "Объездные участки"))
+        self.label_6.setText(_translate("addForm", "Группы объезда"))
         self.addBadRoadButton.setText(_translate("addForm", "Добавть участок"))
         self.coor.setText(_translate("addForm", "<html>\n"
 "<body>\n"
@@ -110,7 +112,7 @@ class Ui_addForm(object):
         self.comboBox.setItemText(0, _translate("addForm", "Карта и нагрузка"))
         self.comboBox.setItemText(2, _translate("addForm", "Нагрузка"))
         self.delBadButton.setText(_translate("addForm", "Удалить участок"))
-        self.delCrossroadButton.setText(_translate("addForm", "Удалить перекрёсток"))
+        self.delCrossroadButton.setText(_translate("addForm", "Удалить группу"))
         self.delRoadButton.setText(_translate("addForm", "Удалить улицу"))
 
 

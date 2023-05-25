@@ -23,7 +23,7 @@
     </rect>
    </property>
    <property name="text">
-    <string>Добавить объезд</string>
+    <string>Добавить участок</string>
    </property>
   </widget>
   <widget class="QPushButton" name="addCrossroadButton">
@@ -114,7 +114,7 @@
     </rect>
    </property>
    <property name="text">
-    <string>Улицы для объезда</string>
+    <string>Объездные участки</string>
    </property>
   </widget>
   <widget class="QLabel" name="label_6">
@@ -127,7 +127,7 @@
     </rect>
    </property>
    <property name="text">
-    <string>Перекрёстки для объезда</string>
+    <string>Группы объезда</string>
    </property>
   </widget>
   <widget class="QLabel" name="imageMap">
@@ -271,7 +271,7 @@
     </rect>
    </property>
    <property name="text">
-    <string>Удалить перекрёсток</string>
+    <string>Удалить группу</string>
    </property>
   </widget>
   <widget class="QPushButton" name="delRoadButton">
