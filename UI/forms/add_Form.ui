@@ -26,7 +26,7 @@
     <string>Добавить участок</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="addCrossroadButton">
+  <widget class="QPushButton" name="addGroupButton">
    <property name="geometry">
     <rect>
      <x>370</x>
@@ -36,7 +36,7 @@
     </rect>
    </property>
    <property name="text">
-    <string>Добавить перекрёсток</string>
+    <string>Добавить группу объезда</string>
    </property>
   </widget>
   <widget class="QLineEdit" name="latitudeEdit">
@@ -176,7 +176,7 @@
     </rect>
    </property>
   </widget>
-  <widget class="QListWidget" name="crossroadList">
+  <widget class="QListWidget" name="groupList">
    <property name="geometry">
     <rect>
      <x>370</x>
@@ -226,9 +226,9 @@
   <widget class="QComboBox" name="comboBox">
    <property name="geometry">
     <rect>
-     <x>370</x>
-     <y>270</y>
-     <width>171</width>
+     <x>550</x>
+     <y>110</y>
+     <width>111</width>
      <height>22</height>
     </rect>
    </property>
@@ -261,7 +261,7 @@
     <string>Удалить участок</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="delCrossroadButton">
+  <widget class="QPushButton" name="delGroupButton">
    <property name="geometry">
     <rect>
      <x>550</x>
@@ -285,6 +285,32 @@
    </property>
    <property name="text">
     <string>Удалить улицу</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_4">
+   <property name="geometry">
+    <rect>
+     <x>370</x>
+     <y>270</y>
+     <width>101</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>k распределения:</string>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="koef">
+   <property name="geometry">
+    <rect>
+     <x>470</x>
+     <y>270</y>
+     <width>71</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>1</string>
    </property>
   </widget>
  </widget>

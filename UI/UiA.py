@@ -37,6 +37,7 @@ class UiA(QtWidgets.QDialog, Form):
         self.x = None
         self.pos_x = None
         self.pos_y = None
+        self.count_group = 1
 
         self.data = {}
 
@@ -45,11 +46,11 @@ class UiA(QtWidgets.QDialog, Form):
         self.uia.setupUi(self)
         self.uia.addBadRoadButton.clicked.connect(self.add_bad_road)
         self.uia.addRoadButton.clicked.connect(self.add_road)
-        self.uia.addCrossroadButton.clicked.connect(self.add_crossroad)
+        self.uia.addGroupButton.clicked.connect(self.add_group)
 
         self.uia.delBadButton.clicked.connect(self.del_bad_road)
         self.uia.delRoadButton.clicked.connect(self.del_road)
-        self.uia.delCrossroadButton.clicked.connect(self.del_crossroad)
+        self.uia.delGroupButton.clicked.connect(self.del_group)
 
         self.uia.imageMap.clicked.connect(self.map_click)
 
@@ -67,7 +68,10 @@ class UiA(QtWidgets.QDialog, Form):
 
         self.uia.badRoadList.itemDoubleClicked.connect(self.show_badRoad)
         self.uia.roadList.itemDoubleClicked.connect(self.show_road)
-        self.uia.crossroadList.itemDoubleClicked.connect(self.show_crossroad)
+        self.uia.groupList.itemDoubleClicked.connect(self.show_group)
+
+        self.uia.groupList.addItem("road_" + str(self.count_group))
+        self.k = []
 
 
     def keyPressEvent(self, e):
@@ -100,8 +104,6 @@ class UiA(QtWidgets.QDialog, Form):
         elif self.uia.comboBox.currentIndex() == 2:
             self.map = 'trf'
             self.scale = 4
-        # self.kx = 0.00002133 / self.scale
-        # self.ky = 0.0000135 / self.scale
         self.load_map()
 
     def map_click(self):
@@ -110,8 +112,7 @@ class UiA(QtWidgets.QDialog, Form):
 
         self.new_longitude = round(float(self.uia.longitudeEdit.text()) + self.x * self.kx, 6)
         self.new_latitude = round(float(self.uia.latitudeEdit.text()) + self.y * self.ky, 6)
-
-        self.center = self.uia.longitudeEdit.text() + " " + self.uia.latitudeEdit.text()
+        self.center = str(self.new_longitude) + " " + str(self.new_latitude)
         self.load_map()
 
     def showEvent(self, event):
@@ -128,7 +129,7 @@ class UiA(QtWidgets.QDialog, Form):
             self.data = temp[area]
         self.uia.badRoadList.addItems(self.data['bad'])
         self.uia.roadList.addItems(self.data['road'])
-        self.uia.crossroadList.addItems(self.data['crossroad'])
+        self.uia.groupList.addItems(self.data['group'])
 
     @QtCore.pyqtSlot(QtCore.QPoint)
     def on_positionChanged(self, pos):
@@ -152,9 +153,8 @@ class UiA(QtWidgets.QDialog, Form):
         self.new_longitude, self.new_latitude = list(map(float, self.uia.roadList.currentIndex().data().split()))
         self.load_map()
 
-    def show_crossroad(self):
-        self.new_longitude, self.new_latitude = list(map(float, self.uia.crossroadList.currentIndex().data().split()))
-        self.load_map()
+    def show_group(self):
+        pass
 
     def load_map(self):
         self.uia.longitudeEdit.setText(f"{self.new_longitude}")
@@ -170,13 +170,16 @@ class UiA(QtWidgets.QDialog, Form):
 
     def add_road(self):
         self.uia.roadList.addItem(f"{self.center}")
-        self.data[f"area {len(self.data)}"]["road"].append(self.center)
+        self.data[f"area {len(self.data)}"]["road_" + str(self.count_group)].append(self.center)
         self.load_map()
 
-    def add_crossroad(self):
-        self.uia.crossroadList.addItem(f"{self.center}")
-        self.data[f"area {len(self.data)}"]["crossroad"].append(self.center)
-        self.load_map()
+    def add_group(self):
+        self.uia.roadList.clear()
+        self.count_group += 1
+        self.uia.groupList.addItem("road_" + str(self.count_group))
+        self.data[f"area {len(self.data)}"]["road_" + str(self.count_group)] = []
+        self.k.append(self.uia.koef.text())
+        self.uia.koef.setText("1")
 
     def del_bad_road(self):
         if self.uia.badRoadList.currentIndex().data() is not None:
@@ -196,16 +199,17 @@ class UiA(QtWidgets.QDialog, Form):
             self.uia.roadList.clear()
             self.uia.roadList.addItems(temp)
 
-    def del_crossroad(self):
-        if self.uia.crossroadList.currentIndex().data() is not None:
+    def del_group(self):
+        if self.uia.groupList.currentIndex().data() is not None:
             temp = list()
-            for i in range(self.uia.crossroadList.count()):
-                temp.append(self.uia.crossroadList.item(i).text())
-            temp.remove(self.uia.crossroadList.currentIndex().data())
-            self.uia.crossroadList.clear()
-            self.uia.crossroadList.addItems(temp)
+            for i in range(self.uia.groupList.count()):
+                temp.append(self.uia.groupList.item(i).text())
+            temp.remove(self.uia.groupList.currentIndex().data())
+            self.uia.groupList.clear()
+            self.uia.groupList.addItems(temp)
 
     def save(self):
+        self.data[f"area {len(self.data)}"]["k"] = self.k
         with open('data/result/data.json', 'w', encoding='utf-8') as out_file:
             json.dump(self.data, out_file, separators=(', ', ': '), indent=4, ensure_ascii=False)
         self.close()

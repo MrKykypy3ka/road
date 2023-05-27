@@ -57,7 +57,7 @@ class UiL(QtWidgets.QDialog, Form):
             with open('data/result/data.json', encoding='utf-8') as file:
                 self.data = json.load(file)
 
-        self.data[f"area {self.count_area}"] = {"bad": [], "road": [], "crossroad": []}
+        self.data[f"area {self.count_area}"] = {"bad": [], "road_1": []}
         with open('data/result/data.json', "w", encoding='utf-8') as file:
             json.dump(self.data, file, separators=(', ', ': '), indent=4, ensure_ascii=True)
 
