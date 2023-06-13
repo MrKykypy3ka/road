@@ -9,6 +9,7 @@ class ClickedLabel(QtWidgets.QLabel):
         super().mouseReleaseEvent(e)
         self.clicked.emit()
 
+
 class Ui_addForm(object):
     def setupUi(self, addForm):
         addForm.setObjectName("addForm")
@@ -79,11 +80,17 @@ class Ui_addForm(object):
         self.delRoadButton.setGeometry(QtCore.QRect(550, 50, 111, 21))
         self.delRoadButton.setObjectName("delRoadButton")
         self.label_4 = QtWidgets.QLabel(addForm)
-        self.label_4.setGeometry(QtCore.QRect(370, 270, 101, 21))
+        self.label_4.setGeometry(QtCore.QRect(550, 140, 111, 21))
         self.label_4.setObjectName("label_4")
         self.koef = QtWidgets.QLineEdit(addForm)
-        self.koef.setGeometry(QtCore.QRect(470, 270, 71, 20))
+        self.koef.setGeometry(QtCore.QRect(550, 160, 111, 20))
         self.koef.setObjectName("koef")
+        self.groupEdit = QtWidgets.QLineEdit(addForm)
+        self.groupEdit.setGeometry(QtCore.QRect(400, 270, 141, 20))
+        self.groupEdit.setObjectName("groupEdit")
+        self.label_7 = QtWidgets.QLabel(addForm)
+        self.label_7.setGeometry(QtCore.QRect(370, 270, 31, 21))
+        self.label_7.setObjectName("label_7")
 
         self.retranslateUi(addForm)
         QtCore.QMetaObject.connectSlotsByName(addForm)
@@ -100,7 +107,7 @@ class Ui_addForm(object):
         self.label_3.setText(_translate("addForm", "<html><head/><body><p>Ремонтируемые участки</p></body></html>"))
         self.label_5.setText(_translate("addForm", "Объездные участки"))
         self.label_6.setText(_translate("addForm", "Группы объезда"))
-        self.addBadRoadButton.setText(_translate("addForm", "Добавть участок"))
+        self.addBadRoadButton.setText(_translate("addForm", "Добавить участок"))
         self.coor.setText(_translate("addForm", "<html>\n"
 "<body>\n"
 "  <style>\n"
@@ -121,6 +128,8 @@ class Ui_addForm(object):
         self.delRoadButton.setText(_translate("addForm", "Удалить улицу"))
         self.label_4.setText(_translate("addForm", "k распределения:"))
         self.koef.setText(_translate("addForm", "1"))
+        self.groupEdit.setText(_translate("addForm", ""))
+        self.label_7.setText(_translate("addForm", "Имя:"))
 
 
 if __name__ == "__main__":

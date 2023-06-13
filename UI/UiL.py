@@ -1,13 +1,10 @@
 import datetime
-
 from PyQt5 import uic, QtWidgets
 from PyQt5.QtWidgets import QInputDialog, QLineEdit
-
 from UI.forms.list_form import Ui_listForm
 from PyQt5.QtCore import *
 from UI.UiA import UiA
 import json
-from time import *
 
 Form, Window = uic.loadUiType("UI/forms/list_form.ui")
 
@@ -17,13 +14,13 @@ class UiL(QtWidgets.QDialog, Form):
         self.uil = Ui_listForm()
         self.uil.setupUi(self)
         self.addForm = None
-        self.uil.addGroupButton.clicked.connect(self.new_area)
-        self.uil.addTimeButton.clicked.connect(self.save_time)
+        self.uil.addGroupButton.clicked.connect(self.add_area)
+        self.uil.addTimeButton.clicked.connect(self.add_time)
         self.uil.saveButton.clicked.connect(self.save)
         self.uil.viewGroupButton.clicked.connect(self.edit_area)
         self.uil.delAreaButton.clicked.connect(self.del_area)
         self.uil.delTimeButton.clicked.connect(self.del_time)
-        self.uil.groupList.itemDoubleClicked.connect(self.rename_item)
+        self.uil.groupList.itemDoubleClicked.connect(self.rename_area)
         self.count_area = 0
         self.data = {}
         y, m, d = map(int, str(datetime.date.today()).split('-'))
@@ -33,75 +30,44 @@ class UiL(QtWidgets.QDialog, Form):
         self.uil.dateEdit_2.setMaximumDate(QDate(y+100, 12, 31))
         self.filename = None
 
-    def rename_item(self, name):
-        text, ok = QInputDialog().getText(self, "Переименовать", "Имя участка:", QLineEdit.Normal, "")
-        if ok and text:
-            self.data[text] = self.data[self.uil.groupList.currentItem().text()]
-            del self.data[self.uil.groupList.currentItem().text()]
-            self.uil.groupList.clear()
-            for key in self.data:
-                if key != 'settings':
-                    self.uil.groupList.addItem(key)
-            with open(f'data/result/data.json', "w", encoding='utf-8') as file:
-                json.dump(self.data, file, separators=(', ', ': '), indent=4, ensure_ascii=True)
-        else:
-            return
+    def add_area(self):
+        self.count_area += 1
+        self.data[f"area {self.count_area}"] = dict()
+        self.uil.groupList.addItem(f"area {self.count_area}")
+        addForm = UiA(self)
+        addForm.closed.connect(self.closed_addForm)
+        addForm.show()
+        addForm.exec_()
 
-    def save_time(self):
+    def add_time(self):
         self.uil.timeList.addItem(self.uil.timeEdit.text())
 
-    def new_area(self):
-        if len(self.data) == self.count_area:
-            self.count_area += 1
-        if not self.count_area == 1:
-            with open('data/result/data.json', encoding='utf-8') as file:
-                self.data = json.load(file)
-
-        self.data[f"area {self.count_area}"] = {"bad": [], "road_1": []}
-        with open('data/result/data.json', "w", encoding='utf-8') as file:
-            json.dump(self.data, file, separators=(', ', ': '), indent=4, ensure_ascii=True)
-
-        self.addForm = UiA(self)
-        self.addForm.show()
-
-        if not self.addForm.exec_():
-            self.uil.groupList.addItem(f"area {self.count_area}")
+    def rename_area(self):
+        text, ok = QInputDialog().getText(self, "Переименовать", "Имя участка:", QLineEdit.Normal, "")
+        if ok and text:
+            item_to_rename = self.uil.groupList.item(self.uil.groupList.currentRow())
+            item_to_rename.setText(text)
+            self.data[text] = self.data[self.uil.groupList.currentItem().text()]
+            del self.data[self.uil.groupList.currentItem().text()]
+        else:
+            return
 
     def edit_area(self):
         if self.uil.groupList.currentIndex().data() is not None:
             self.addForm = UiA(self)
-            self.addForm.showEdit(area=self.uil.groupList.currentIndex().data())
+            self.addForm.showEdit(area=self.uil.groupList.currentIndex().data(), filename=self.filename)
 
     def del_area(self):
         if self.uil.groupList.currentIndex().data() is not None:
             del self.data[self.uil.groupList.currentIndex().data()]
-            self.uil.groupList.clear()
-            self.uil.groupList.addItems(self.data)
+            self.uia.groupList.takeItem(self.uia.groupList.currentRow())
 
     def del_time(self):
         if self.uil.timeList.currentIndex().data() is not None:
-            temp = list()
-            for i in range(self.uil.timeList.count()):
-                temp.append(self.uil.timeList.item(i).text())
-            temp.remove(self.uil.timeList.currentIndex().data())
-            self.uil.timeList.clear()
-            self.uil.timeList.addItems(temp)
+            self.uil.timeList.takeItem(self.uil.timeList.currentRow())
 
-    def save(self):
-        filename = ''
-        text, ok = QInputDialog().getText(self, "Сохранение", "Имя конфигурации:", QLineEdit.Normal)
-        if ok and text:
-            filename = text
-            with open(f'data/result/data.json', encoding='utf-8') as file:
-                self.data = json.load(file)
-            self.data[f"settings"] = {
-                "date": [self.uil.dateEdit.text(), self.uil.dateEdit.text()],
-                "time": [self.uil.timeList.item(i).text() for i in range(self.uil.timeList.count())]}
-            with open(f'data/result/{filename}.json', "w", encoding='utf-8') as file:
-                json.dump(self.data, file, separators=(', ', ': '), indent=4, ensure_ascii=True)
-            self.close()
-        else:
-            return
+    def closed_addForm(self, text):
+        self.data[f"area {self.count_area}"] = text
 
     def load_data(self, filename):
         self.filename = filename
@@ -118,3 +84,18 @@ class UiL(QtWidgets.QDialog, Form):
                     self.uil.timeList.addItem(elem)
             else:
                 self.uil.groupList.addItem(key)
+
+    def save(self):
+        text, ok = QInputDialog().getText(self, "Сохранение", "Имя конфигурации:", QLineEdit.Normal)
+        if ok and text:
+            filename = text
+            with open(f'data/result/data.json', encoding='utf-8') as file:
+                self.data = json.load(file)
+            self.data[f"settings"] = {
+                "date": [self.uil.dateEdit.text(), self.uil.dateEdit.text()],
+                "time": [self.uil.timeList.item(i).text() for i in range(self.uil.timeList.count())]}
+            with open(f'data/result/{filename}.json', "w", encoding='utf-8') as file:
+                json.dump(self.data, file, separators=(', ', ': '), indent=4, ensure_ascii=True)
+            self.close()
+        else:
+            return

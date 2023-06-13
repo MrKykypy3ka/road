@@ -111,9 +111,9 @@
    <property name="geometry">
     <rect>
      <x>20</x>
-     <y>0</y>
+     <y>10</y>
      <width>141</width>
-     <height>41</height>
+     <height>16</height>
     </rect>
    </property>
    <property name="text">
@@ -157,9 +157,9 @@
    <property name="geometry">
     <rect>
      <x>160</x>
-     <y>2</y>
+     <y>10</y>
      <width>141</width>
-     <height>41</height>
+     <height>16</height>
     </rect>
    </property>
    <property name="text">
@@ -232,8 +232,6 @@
    </property>
   </widget>
  </widget>
- <resources>
-  <include location="../images/image.qrc"/>
- </resources>
+ <resources/>
  <connections/>
 </ui>

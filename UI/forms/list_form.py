@@ -38,7 +38,7 @@ class Ui_listForm(object):
         self.dateEdit.setMinimumDate(QtCore.QDate(2023, 1, 1))
         self.dateEdit.setObjectName("dateEdit")
         self.label_7 = QtWidgets.QLabel(listForm)
-        self.label_7.setGeometry(QtCore.QRect(20, 0, 141, 41))
+        self.label_7.setGeometry(QtCore.QRect(20, 10, 141, 16))
         self.label_7.setObjectName("label_7")
         self.timeList = QtWidgets.QListWidget(listForm)
         self.timeList.setGeometry(QtCore.QRect(160, 30, 131, 151))
@@ -50,7 +50,7 @@ class Ui_listForm(object):
         self.timeEdit.setGeometry(QtCore.QRect(160, 190, 131, 22))
         self.timeEdit.setObjectName("timeEdit")
         self.label_4 = QtWidgets.QLabel(listForm)
-        self.label_4.setGeometry(QtCore.QRect(160, 2, 141, 41))
+        self.label_4.setGeometry(QtCore.QRect(160, 10, 141, 16))
         self.label_4.setObjectName("label_4")
         self.label_5 = QtWidgets.QLabel(listForm)
         self.label_5.setGeometry(QtCore.QRect(300, 10, 161, 16))
@@ -75,7 +75,7 @@ class Ui_listForm(object):
         _translate = QtCore.QCoreApplication.translate
         listForm.setWindowTitle(_translate("listForm", "Конфигурация анализа"))
         self.viewGroupButton.setText(_translate("listForm", "Редактировать"))
-        self.addGroupButton.setText(_translate("listForm", "Добавть"))
+        self.addGroupButton.setText(_translate("listForm", "Добавить"))
         self.label_7.setText(_translate("listForm", "<html><head/><body><p>Группы участков</p></body></html>"))
         self.addTimeButton.setText(_translate("listForm", "Добавить время"))
         self.label_4.setText(_translate("listForm", "Время сбора данных"))
@@ -84,7 +84,6 @@ class Ui_listForm(object):
         self.saveButton.setText(_translate("listForm", "Сохранить конфигурацию"))
         self.delAreaButton.setText(_translate("listForm", "Удалить группу"))
         self.delTimeButton.setText(_translate("listForm", "Удалить время"))
-import image_rc
 
 
 if __name__ == "__main__":
