@@ -1,4 +1,5 @@
-from PyQt5.QtWidgets import QFileDialog, QMessageBox, QWidget, QVBoxLayout, QListWidget, QPushButton
+from PyQt5.QtWidgets import QFileDialog, QMessageBox, QWidget, QVBoxLayout, QListWidget, QPushButton, QInputDialog, \
+    QLineEdit
 from PyQt5.QtCore import *
 from PyQt5.QtCore import pyqtSignal
 from dotenv import load_dotenv, find_dotenv
@@ -8,8 +9,10 @@ from UI.UiL import UiL
 from PyQt5.QtGui import QIcon
 from socket_client import *
 import os
+import configparser
 
-
+load_dotenv(find_dotenv())
+CITY = os.getenv('CITY')
 Form, Window = uic.loadUiType("UI/forms/main_form.ui")
 
 class UiC(QtWidgets.QDialog):
@@ -41,7 +44,6 @@ class UiC(QtWidgets.QDialog):
         if selected_item is not None:
             self.item_selected.emit(selected_item.text())
             self.close()
-
 
 
 class UiM(QtWidgets.QDialog, Form):
@@ -78,15 +80,26 @@ class UiM(QtWidgets.QDialog, Form):
         return filename
 
     def initUI(self):  # Метод инициализации подписок на событие
-        self.uim.pushButton_2.clicked.connect(self.show_list_form)
-        self.uim.pushButton_5.clicked.connect(self.show_send_form)
-        self.uim.pushButton_3.clicked.connect(self.show_list_edit_form)
-        self.uim.pushButton_7.clicked.connect(self.open_archive)
-        self.uim.pushButton.clicked.connect(self.show_user_guide)
+        self.uim.addConfigButton.clicked.connect(self.show_list_form)
+        self.uim.analyseButton.clicked.connect(self.show_send_form)
+        self.uim.editConfigButton.clicked.connect(self.show_list_edit_form)
+        self.uim.archiveButton.clicked.connect(self.open_archive)
+        self.uim.infoButton.clicked.connect(self.show_user_guide)
+        self.uim.settingsButton.clicked.connect(self.show_settings)
         self.setWindowFlags(self.windowFlags() | Qt.WindowMinimizeButtonHint)
         self.setFixedSize(self.width(), self.height())
         self.setWindowIcon(QIcon("data/images/ico.ico"))
 
+    def show_settings(self):
+        config = configparser.ConfigParser()
+        config.read('config.ini')
+        city = config['DEFAULT']['CITY']
+        text, ok = QInputDialog().getText(self, "Выбор города", "Название:", QLineEdit.Normal, city, Qt.WindowCloseButtonHint)
+        if ok and text:
+            config = configparser.ConfigParser()
+            config['DEFAULT'] = {'CITY': text}
+            with open('config.ini', 'w') as configfile:
+                config.write(configfile)
 
     def open_archive(self):
         uic = UiC(get_list_data())
