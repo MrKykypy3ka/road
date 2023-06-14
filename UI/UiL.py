@@ -13,7 +13,14 @@ class UiL(QtWidgets.QDialog, Form):
         super(UiL, self).__init__(parent)
         self.uil = Ui_listForm()
         self.uil.setupUi(self)
+        self.count_area = 0
+        self.data = {}
         self.addForm = None
+        self.filename = None
+        self.initUI()
+
+
+    def initUI(self):
         self.uil.addGroupButton.clicked.connect(self.add_area)
         self.uil.addTimeButton.clicked.connect(self.add_time)
         self.uil.saveButton.clicked.connect(self.save)
@@ -21,14 +28,13 @@ class UiL(QtWidgets.QDialog, Form):
         self.uil.delAreaButton.clicked.connect(self.del_area)
         self.uil.delTimeButton.clicked.connect(self.del_time)
         self.uil.groupList.itemDoubleClicked.connect(self.rename_area)
-        self.count_area = 0
-        self.data = {}
         y, m, d = map(int, str(datetime.date.today()).split('-'))
         self.uil.dateEdit.setMinimumDate(QDate(y, m, d))
         self.uil.dateEdit.setMaximumDate(QDate(y+100, 12, 31))
         self.uil.dateEdit_2.setMinimumDate(QDate(y, m, d+1))
         self.uil.dateEdit_2.setMaximumDate(QDate(y+100, 12, 31))
-        self.filename = None
+        self.setFixedSize(self.width(), self.height())
+        self.setWindowFlags(self.windowFlags() | Qt.WindowMinimizeButtonHint)
 
     def add_area(self):
         self.count_area += 1

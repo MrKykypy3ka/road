@@ -2,8 +2,9 @@ from PyQt5 import uic, QtWidgets, QtCore
 from UI.forms.add_Form import Ui_addForm
 from PyQt5.QtGui import QPixmap
 from API.yandex import get_map
-from PyQt5.QtCore import pyqtSignal
+from PyQt5.QtCore import *
 import json
+
 
 Form, Window = uic.loadUiType("UI/forms/add_form.ui")
 
@@ -30,17 +31,16 @@ class UiA(QtWidgets.QDialog, Form):
     closed = pyqtSignal(dict)
     def __init__(self, parent=None):
         super(UiA, self).__init__(parent)
+        self.uia = Ui_addForm()
+        self.uia.setupUi(self)
         self.map = 'map,trf'
         self.scale = 2
         self.kx = 0.00002133
         self.ky = 0.0000135
         self.data = {'k': dict()}
-        self.uia = Ui_addForm()
-        self.uia.setupUi(self)
         self.new_longitude = self.uia.longitudeEdit.text()
         self.new_latitude = self.uia.latitudeEdit.text()
-        self.uia.imageMap.setCursor(QtCore.Qt.CrossCursor)
-        self.uia.imageMap.setFocus()
+        self.tracker = MouseTracker(self.uia.imageMap)
         self.edit_name = False
         self.y = None
         self.x = None
@@ -49,10 +49,9 @@ class UiA(QtWidgets.QDialog, Form):
         self.center = None
         self.area = None
         self.filename = None
-        self.tracker = MouseTracker(self.uia.imageMap)
-        self.connect_signals()
+        self.initUI()
 
-    def connect_signals(self):
+    def initUI(self):
         self.tracker.positionChanged.connect(self.on_positionChanged)
         self.uia.addBadRoadButton.clicked.connect(self.add_bad_road)
         self.uia.addRoadButton.clicked.connect(self.add_road)
@@ -67,6 +66,10 @@ class UiA(QtWidgets.QDialog, Form):
         self.uia.groupEdit.textChanged.connect(self.change_color)
         self.uia.comboBox.currentIndexChanged.connect(self.change_view_map)
         self.uia.saveButton.clicked.connect(self.save)
+        self.uia.imageMap.setCursor(QtCore.Qt.CrossCursor)
+        self.uia.imageMap.setFocus()
+        self.setFixedSize(self.width(), self.height())
+        self.setWindowFlags(self.windowFlags() | Qt.WindowMinimizeButtonHint)
 
     def change_view_map(self):
         if self.uia.comboBox.currentIndex() == 0:
