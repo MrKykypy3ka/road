@@ -1,4 +1,6 @@
 import datetime
+import os
+
 from PyQt5 import uic, QtWidgets
 from PyQt5.QtWidgets import QInputDialog, QLineEdit
 from UI.forms.list_form import Ui_listForm
@@ -16,7 +18,7 @@ class UiL(QtWidgets.QDialog, Form):
         self.count_area = 0
         self.data = {}
         self.addForm = None
-        self.filename = None
+        self.filename = ""
         self.initUI()
 
 
@@ -36,14 +38,6 @@ class UiL(QtWidgets.QDialog, Form):
         self.setFixedSize(self.width(), self.height())
         self.setWindowFlags(self.windowFlags() | Qt.WindowMinimizeButtonHint)
 
-    def add_area(self):
-        self.count_area += 1
-        self.data[f"area {self.count_area}"] = dict()
-        self.uil.groupList.addItem(f"area {self.count_area}")
-        addForm = UiA(self)
-        addForm.closed.connect(self.closed_addForm)
-        addForm.show()
-        addForm.exec_()
 
     def add_time(self):
         self.uil.timeList.addItem(self.uil.timeEdit.text())
@@ -51,29 +45,41 @@ class UiL(QtWidgets.QDialog, Form):
     def rename_area(self):
         text, ok = QInputDialog().getText(self, "Переименовать", "Имя участка:", QLineEdit.Normal, "")
         if ok and text:
-            item_to_rename = self.uil.groupList.item(self.uil.groupList.currentRow())
-            item_to_rename.setText(text)
             self.data[text] = self.data[self.uil.groupList.currentItem().text()]
             del self.data[self.uil.groupList.currentItem().text()]
+            item_to_rename = self.uil.groupList.item(self.uil.groupList.currentRow())
+            item_to_rename.setText(text)
         else:
             return
 
+    def add_area(self):
+        self.count_area += 1
+        self.data[f"area {self.count_area}"] = dict()
+        self.uil.groupList.addItem(f"area {self.count_area}")
+        addForm = UiA(self)
+        addForm.closed.connect(self.closed_addForm)
+        self.current_area = f"area {self.count_area}"
+        addForm.show()
+        addForm.exec_()
+
     def edit_area(self):
         if self.uil.groupList.currentIndex().data() is not None:
-            self.addForm = UiA(self)
-            self.addForm.showEdit(area=self.uil.groupList.currentIndex().data(), filename=self.filename)
+            addForm = UiA(self)
+            addForm.closed.connect(self.closed_addForm)
+            self.current_area = self.uil.groupList.currentIndex().data()
+            addForm.showEdit(self.data[self.current_area])
 
     def del_area(self):
         if self.uil.groupList.currentIndex().data() is not None:
             del self.data[self.uil.groupList.currentIndex().data()]
-            self.uia.groupList.takeItem(self.uia.groupList.currentRow())
+            self.uil.groupList.takeItem(self.uil.groupList.currentRow())
 
     def del_time(self):
         if self.uil.timeList.currentIndex().data() is not None:
             self.uil.timeList.takeItem(self.uil.timeList.currentRow())
 
     def closed_addForm(self, text):
-        self.data[f"area {self.count_area}"] = text
+        self.data[self.current_area] = text
 
     def load_data(self, filename):
         self.filename = filename
@@ -92,15 +98,13 @@ class UiL(QtWidgets.QDialog, Form):
                 self.uil.groupList.addItem(key)
 
     def save(self):
-        text, ok = QInputDialog().getText(self, "Сохранение", "Имя конфигурации:", QLineEdit.Normal)
+        text, ok = QInputDialog().getText(self, "Сохранение", "Имя конфигурации:", QLineEdit.Normal, text=os.path.basename(self.filename)[:-5])
         if ok and text:
-            filename = text
-            with open(f'data/result/data.json', encoding='utf-8') as file:
-                self.data = json.load(file)
+            self.filename = text
             self.data[f"settings"] = {
                 "date": [self.uil.dateEdit.text(), self.uil.dateEdit.text()],
                 "time": [self.uil.timeList.item(i).text() for i in range(self.uil.timeList.count())]}
-            with open(f'data/result/{filename}.json', "w", encoding='utf-8') as file:
+            with open(f'data/result/{self.filename}.json', "w", encoding='utf-8') as file:
                 json.dump(self.data, file, separators=(', ', ': '), indent=4, ensure_ascii=True)
             self.close()
         else:

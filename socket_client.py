@@ -3,7 +3,6 @@ import socket
 import pickle
 import os
 import io
-import json
 
 load_dotenv(find_dotenv())
 HOST = os.getenv('HOST')
@@ -27,8 +26,6 @@ def send_file(filepath):
             return "Файл успешно отправлен."
         except socket.error as e:
             return "Ошибка при отправке файла: " + str(e)
-        finally:
-            s.close()
 
 def get_list_data():
     with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
@@ -41,7 +38,6 @@ def get_list_data():
             return file_list
         except socket.error as error:
             return f"Ошибка при получении списка файлов: {error}"
-
 
 def get_file(filename):
     with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
@@ -58,5 +54,3 @@ def get_file(filename):
             return f"Файл успешно получен"
         except socket.error as error:
             return f"Ошибка при получении файла: {error}"
-        finally:
-            s.close()

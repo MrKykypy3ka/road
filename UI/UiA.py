@@ -39,7 +39,7 @@ class UiA(QtWidgets.QDialog, Form):
         self.scale = 2
         self.kx = 0.00002133
         self.ky = 0.0000135
-        self.data = {'k': dict()}
+        self.data = {'bad': [], 'k': dict()}
         self.new_longitude = self.uia.longitudeEdit.text()
         self.new_latitude = self.uia.latitudeEdit.text()
         self.tracker = MouseTracker(self.uia.imageMap)
@@ -105,13 +105,9 @@ class UiA(QtWidgets.QDialog, Form):
         self.new_longitude, self.new_latitude = get_city(config['DEFAULT']['city'])
         self.load_map()
 
-    def showEdit(self, area=None, filename="data/result/data.json"):
-        self.area = area
-        self.filename = filename
+    def showEdit(self, data):
         self.uia.groupList.clear()
-        with open(filename) as file:
-            temp = json.load(file)
-            self.data = temp[area]
+        self.data = data
         self.uia.badRoadList.addItems(self.data['bad'])
         for group in self.data:
             if group != 'bad' and group != 'k':
@@ -157,6 +153,7 @@ class UiA(QtWidgets.QDialog, Form):
 
     def add_bad_road(self):
         self.uia.badRoadList.addItem(f"{self.center}")
+        self.data['bad'].append(f"{self.center}")
         self.load_map()
 
     def add_road(self):

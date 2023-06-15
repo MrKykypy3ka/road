@@ -1,14 +1,11 @@
-from PyQt5.QtWidgets import QFileDialog, QMessageBox, QWidget, QVBoxLayout, QListWidget, QPushButton, QInputDialog, \
-    QLineEdit
+from PyQt5.QtWidgets import QFileDialog, QMessageBox, QVBoxLayout, QListWidget, QPushButton, QInputDialog, QLineEdit
 from PyQt5.QtCore import *
 from PyQt5.QtCore import pyqtSignal
-from dotenv import load_dotenv, find_dotenv
 from UI.forms.main_form import Ui_mainForm
 from PyQt5 import QtWidgets, uic
 from UI.UiL import UiL
 from PyQt5.QtGui import QIcon
 from socket_client import *
-import os
 import configparser
 
 load_dotenv(find_dotenv())
@@ -19,7 +16,7 @@ class UiC(QtWidgets.QDialog):
     def __init__(self, filelist, parent=None):
         super(UiC, self).__init__(parent)
         self.filelist = filelist
-        self.setWindowTitle("Пример окна PyQt")
+        self.setWindowTitle("Выберите файл")
         layout = QVBoxLayout()
         self.list_widget = QListWidget()
         self.list_widget.addItems(self.filelist)
@@ -51,6 +48,17 @@ class UiM(QtWidgets.QDialog, Form):
         self.uic = None
         self.initUI()
 
+    def initUI(self):  # Метод инициализации подписок на событие
+        self.uim.addConfigButton.clicked.connect(self.show_list_form)
+        self.uim.analyseButton.clicked.connect(self.show_send_form)
+        self.uim.editConfigButton.clicked.connect(self.show_list_edit_form)
+        self.uim.archiveButton.clicked.connect(self.show_archive)
+        self.uim.infoButton.clicked.connect(self.show_user_guide)
+        self.uim.settingsButton.clicked.connect(self.show_settings)
+        self.setWindowFlags(self.windowFlags() | Qt.WindowMinimizeButtonHint)
+        self.setFixedSize(self.width(), self.height())
+        self.setWindowIcon(QIcon("data/images/ico.ico"))
+
     def show_list_form(self):  # Метод отображения формы создания конфигурации
         self.uil = UiL(self)
         self.uil.show()
@@ -71,20 +79,29 @@ class UiM(QtWidgets.QDialog, Form):
         msg_box.setText(send_file(filename))
         msg_box.exec_()
 
-    def choice_data(self, typefile):  # Диалоговое окно для выбора файла конфигурации
+    def show_archive(self):
+        try:
+            filelist = get_list_data()
+            uic = UiC(get_list_data())
+            uic.item_selected.connect(self.save_file)
+            uic.exec_()
+        except:
+            msg_box = QMessageBox()
+            msg_box.setWindowIcon(QIcon("data/images/ico.ico"))
+            msg_box.setWindowTitle("Получение файла")
+            msg_box.setText(get_file(filelist))
+            msg_box.exec_()
+
+    def show_user_guide(self):
+        msg_box = QMessageBox()
+        msg_box.setWindowIcon(QIcon("data/images/ico.ico"))
+        msg_box.setWindowTitle("Руководство пользователя")
+        msg_box.setText("Руководство пользователя")
+        msg_box.exec_()
+
+    def choice_data(self, typefile):
         filename, ok = QFileDialog.getOpenFileName(self, "Выберете файл конфигурации", "", typefile)
         return filename
-
-    def initUI(self):  # Метод инициализации подписок на событие
-        self.uim.addConfigButton.clicked.connect(self.show_list_form)
-        self.uim.analyseButton.clicked.connect(self.show_send_form)
-        self.uim.editConfigButton.clicked.connect(self.show_list_edit_form)
-        self.uim.archiveButton.clicked.connect(self.open_archive)
-        self.uim.infoButton.clicked.connect(self.show_user_guide)
-        self.uim.settingsButton.clicked.connect(self.show_settings)
-        self.setWindowFlags(self.windowFlags() | Qt.WindowMinimizeButtonHint)
-        self.setFixedSize(self.width(), self.height())
-        self.setWindowIcon(QIcon("data/images/ico.ico"))
 
     def show_settings(self):
         config = configparser.ConfigParser()
@@ -98,21 +115,9 @@ class UiM(QtWidgets.QDialog, Form):
             with open('config.ini', 'w') as configfile:
                 config.write(configfile)
 
-    def open_archive(self):
-        uic = UiC(get_list_data())
-        uic.item_selected.connect(self.save_file)
-        uic.exec_()
-
     def save_file(self, filename):
         msg_box = QMessageBox()
         msg_box.setIcon(QMessageBox.Information)
         msg_box.setWindowTitle("Получение файла")
         msg_box.setText(get_file(filename))
-        msg_box.exec_()
-
-    def show_user_guide(self):
-        msg_box = QMessageBox()
-        msg_box.setIcon(QMessageBox.Information)
-        msg_box.setWindowTitle("Отправка файл на сервер")
-        msg_box.setText("Руководство пользователя")
         msg_box.exec_()

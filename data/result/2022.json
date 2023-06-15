@@ -16,13 +16,9 @@
             "127.523989 50.25777"
         ], 
         "k": {
-            "Zeyskaya": "0.6", 
-            "Krasnoflotskaya": "0.3", 
-            "ggg": "0.1"
-        }, 
-        "ggg": [
-            "127.543399 50.260255"
-        ]
+            "Zeyskaya": 0.6, 
+            "Krasnoflotskaya": 0.3
+        }
     }, 
     "Lenina_(OKC)": {
         "bad": [
@@ -89,8 +85,9 @@
             "127.536849 50.275661"
         ], 
         "k": {
-            "Zeyskaya": 0.4, 
-            "Amurskaya": 0.2, 
+            "Krasnoarmeskaya": 0.4, 
+            "Gorkogo": 0.3, 
+            "Severnaya": 0.2, 
             "Lomonosova": 0.1
         }
     }, 
@@ -191,8 +188,8 @@
     }, 
     "settings": {
         "date": [
-            "29.05.2023", 
-            "06.06.2023"
+            "16.06.2023", 
+            "16.06.2023"
         ], 
         "time": [
             "06:00", 
