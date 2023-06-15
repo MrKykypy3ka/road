@@ -1,3 +1,5 @@
+import json
+
 import requests
 import shutil
 from PIL import Image, ImageDraw
@@ -24,10 +26,9 @@ def get_city(city):
     try:
         link = f'https://geocode-maps.yandex.ru/1.x/?apikey={TOKEN}&geocode={city}&format=json'
         response = requests.get(link)
-        print(response.content)
-
+        return response.json()['response']['GeoObjectCollection']['featureMember'][0]['GeoObject']['Point']['pos'].split()
     except:
-        print(print("Ошибка запроса"))
+        print("Ошибка запроса")
 
 
 def draw_dot(name):

@@ -12,7 +12,6 @@ import os
 import configparser
 
 load_dotenv(find_dotenv())
-CITY = os.getenv('CITY')
 Form, Window = uic.loadUiType("UI/forms/main_form.ui")
 
 class UiC(QtWidgets.QDialog):
@@ -21,10 +20,6 @@ class UiC(QtWidgets.QDialog):
         super(UiC, self).__init__(parent)
         self.filelist = filelist
         self.setWindowTitle("Пример окна PyQt")
-        self.setup_ui()
-        self.initUI()
-
-    def setup_ui(self):
         layout = QVBoxLayout()
         self.list_widget = QListWidget()
         self.list_widget.addItems(self.filelist)
@@ -32,6 +27,7 @@ class UiC(QtWidgets.QDialog):
         self.button = QPushButton("Получить файл")
         layout.addWidget(self.button)
         self.setLayout(layout)
+        self.initUI()
 
     def initUI(self):
         self.setWindowFlags(self.windowFlags() | Qt.WindowMinimizeButtonHint)
@@ -62,8 +58,8 @@ class UiM(QtWidgets.QDialog, Form):
     def show_list_edit_form(self):  # Метод отображения формы редактирования конфигурации
         try:
             filename = self.choice_data('JSON (*.json)')
-            self.listForm = UiL(self)
-            self.listForm.load_data(filename)
+            self.uil = UiL(self)
+            self.uil.load_data(filename)
         except:
             pass
 
@@ -93,11 +89,12 @@ class UiM(QtWidgets.QDialog, Form):
     def show_settings(self):
         config = configparser.ConfigParser()
         config.read('config.ini')
-        city = config['DEFAULT']['CITY']
-        text, ok = QInputDialog().getText(self, "Выбор города", "Название:", QLineEdit.Normal, city, Qt.WindowCloseButtonHint)
+        city = config['DEFAULT']['city']
+        text, ok = QInputDialog().getText(self, "Выбор города", "Название:",
+                                          QLineEdit.Normal, city, Qt.WindowCloseButtonHint)
         if ok and text:
             config = configparser.ConfigParser()
-            config['DEFAULT'] = {'CITY': text}
+            config['DEFAULT'] = {'city': text}
             with open('config.ini', 'w') as configfile:
                 config.write(configfile)
 

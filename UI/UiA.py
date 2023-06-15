@@ -1,7 +1,9 @@
+import configparser
+
 from PyQt5 import uic, QtWidgets, QtCore
 from UI.forms.add_Form import Ui_addForm
 from PyQt5.QtGui import QPixmap
-from API.yandex import get_map
+from API.yandex import *
 from PyQt5.QtCore import *
 import json
 
@@ -98,6 +100,9 @@ class UiA(QtWidgets.QDialog, Form):
     def showEvent(self, event):
         self.new_longitude = self.uia.longitudeEdit.text()
         self.new_latitude = self.uia.latitudeEdit.text()
+        config = configparser.ConfigParser()
+        config.read('config.ini')
+        self.new_longitude, self.new_latitude = get_city(config['DEFAULT']['city'])
         self.load_map()
 
     def showEdit(self, area=None, filename="data/result/data.json"):
