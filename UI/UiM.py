@@ -40,7 +40,7 @@ class UiC(QtWidgets.QDialog):
 
 
 class UiM(QtWidgets.QDialog, Form):
-    def __init__(self, parent=None):  # Конструктор класса
+    def __init__(self, parent=None):
         super(UiM, self).__init__(parent)
         self.uim = Ui_mainForm()
         self.uim.setupUi(self)
@@ -48,7 +48,7 @@ class UiM(QtWidgets.QDialog, Form):
         self.uic = None
         self.initUI()
 
-    def initUI(self):  # Метод инициализации подписок на событие
+    def initUI(self):
         self.uim.addConfigButton.clicked.connect(self.show_list_form)
         self.uim.analyseButton.clicked.connect(self.show_send_form)
         self.uim.editConfigButton.clicked.connect(self.show_list_edit_form)
@@ -59,11 +59,11 @@ class UiM(QtWidgets.QDialog, Form):
         self.setFixedSize(self.width(), self.height())
         self.setWindowIcon(QIcon("data/images/ico.ico"))
 
-    def show_list_form(self):  # Метод отображения формы создания конфигурации
+    def show_list_form(self):
         self.uil = UiL(self)
         self.uil.show()
 
-    def show_list_edit_form(self):  # Метод отображения формы редактирования конфигурации
+    def show_list_edit_form(self):
         try:
             filename = self.choice_data('JSON (*.json)')
             self.uil = UiL(self)
@@ -119,5 +119,7 @@ class UiM(QtWidgets.QDialog, Form):
         msg_box = QMessageBox()
         msg_box.setIcon(QMessageBox.Information)
         msg_box.setWindowTitle("Получение файла")
-        msg_box.setText(get_file(filename))
-        msg_box.exec_()
+        path = QFileDialog.getExistingDirectory(self, 'Выберите папку')
+        if path:
+            msg_box.setText(get_file(filename, path))
+            msg_box.exec_()

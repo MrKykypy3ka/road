@@ -39,13 +39,13 @@ def get_list_data():
         except socket.error as error:
             return f"Ошибка при получении списка файлов: {error}"
 
-def get_file(filename):
+def get_file(filename, path='data/archive/'):
     with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
         try:
             s.connect((HOST, PORT))
             request = f"R_F {filename}"
             s.sendall(request.encode())
-            with open(f"data/archive/{filename}", 'wb') as f:
+            with open(f"{path}/{filename}", 'wb') as f:
                 while True:
                     data = s.recv(1024)
                     if not data:

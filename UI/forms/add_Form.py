@@ -127,7 +127,7 @@ class Ui_addForm(object):
         self.delGroupButton.setText(_translate("addForm", "Удалить группу"))
         self.delRoadButton.setText(_translate("addForm", "Удалить улицу"))
         self.label_4.setText(_translate("addForm", "k распределения:"))
-        self.koef.setText(_translate("addForm", "1"))
+        self.koef.setText(_translate("addForm", "0.0"))
         self.groupEdit.setText(_translate("addForm", ""))
         self.label_7.setText(_translate("addForm", "Имя:"))
 

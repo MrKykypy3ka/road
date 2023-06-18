@@ -17,7 +17,7 @@
         ], 
         "k": {
             "Zeyskaya": 0.6, 
-            "Krasnoflotskaya": 0.3
+            "Krasnoflotskaya": 0.4
         }
     }, 
     "Lenina_(OKC)": {
@@ -86,8 +86,8 @@
         ], 
         "k": {
             "Krasnoarmeskaya": 0.4, 
-            "Gorkogo": 0.3, 
-            "Severnaya": 0.2, 
+            "Gorkogo": 0.4,
+            "Severnaya": 0.1,
             "Lomonosova": 0.1
         }
     }, 
@@ -121,7 +121,7 @@
         "k": {
             "Krasnoarmeskaya": 0.5, 
             "Gorkogo": 0.3, 
-            "Severnaya": 0.2
+            "Severnaya": 0.3
         }
     }, 
     "Gorkogo": {
@@ -180,10 +180,10 @@
             "127.56748 50.267859"
         ], 
         "k": {
-            "Amurskaya": 0, 
-            "Zeyskaya": 0, 
-            "Krasnoarmeskaya": 0, 
-            "Oktyabrskaya": 0
+            "Amurskaya": 0.0,
+            "Zeyskaya": 0.0,
+            "Krasnoarmeskaya": 0.0,
+            "Oktyabrskaya": 0.0
         }
     }, 
     "settings": {

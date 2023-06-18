@@ -18,6 +18,7 @@ class UiL(QtWidgets.QDialog, Form):
         self.count_area = 0
         self.data = {}
         self.addForm = None
+        self.current_area = None
         self.filename = ""
         self.initUI()
 
@@ -98,7 +99,11 @@ class UiL(QtWidgets.QDialog, Form):
                 self.uil.groupList.addItem(key)
 
     def save(self):
-        text, ok = QInputDialog().getText(self, "Сохранение", "Имя конфигурации:", QLineEdit.Normal, text=os.path.basename(self.filename)[:-5])
+        text, ok = QInputDialog().getText(self,
+                                          "Сохранение",
+                                          "Имя конфигурации:",
+                                          QLineEdit.Normal,
+                                          text=os.path.basename(self.filename)[:-5])
         if ok and text:
             self.filename = text
             self.data[f"settings"] = {

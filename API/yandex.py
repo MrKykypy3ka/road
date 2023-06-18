@@ -34,6 +34,6 @@ def get_city(city):
 def draw_dot(name):
     image = Image.open(name)
     draw = ImageDraw.Draw(image)
-    draw.line((325, 220, 325, 230), fill=(0, 0, 0), width=1)
-    draw.line((320, 225, 330, 225), fill=(0, 0, 0), width=1)
+    draw.line((325, 217, 325, 233), fill=(0, 0, 0), width=2)
+    draw.line((317, 225, 333, 225), fill=(0, 0, 0), width=2)
     image.save(name)

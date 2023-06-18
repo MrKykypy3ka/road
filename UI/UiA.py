@@ -175,7 +175,7 @@ class UiA(QtWidgets.QDialog, Form):
             self.data[self.uia.groupEdit.text()] = [self.uia.roadList.item(i).text()
                                                     for i in range(self.uia.roadList.count())]
             self.data['k'][self.uia.groupEdit.text()] = float(self.uia.koef.text())
-            self.uia.koef.setText("1")
+            self.uia.koef.setText("0.0")
             self.uia.groupEdit.setText("")
             self.edit_name = False
             self.uia.roadList.clear()
