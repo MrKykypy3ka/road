@@ -1,12 +1,12 @@
 from PyQt5.QtWidgets import QFileDialog, QMessageBox, QVBoxLayout, QListWidget, QPushButton, QInputDialog, QLineEdit
-from PyQt5.QtCore import *
-from PyQt5.QtCore import pyqtSignal
 from UI.forms.main_form import Ui_mainForm
+from PyQt5.QtCore import pyqtSignal, Qt
 from PyQt5 import QtWidgets, uic
-from UI.UiL import UiL
 from PyQt5.QtGui import QIcon
 from socket_client import *
+from UI.UiL import UiL
 import configparser
+import image_rc
 
 load_dotenv(find_dotenv())
 Form, Window = uic.loadUiType("UI/forms/main_form.ui")
@@ -96,7 +96,13 @@ class UiM(QtWidgets.QDialog, Form):
         msg_box = QMessageBox()
         msg_box.setWindowIcon(QIcon("data/images/ico.ico"))
         msg_box.setWindowTitle("Руководство пользователя")
-        msg_box.setText("Руководство пользователя")
+        try:
+            with open('user_guide.txt', 'r', encoding='utf-8') as file:
+                txt = file.read()
+            print(1)
+            msg_box.setText(txt)
+        except Exception as e:
+            msg_box.setText(f'Ошибка: {e}')
         msg_box.exec_()
 
     def choice_data(self, typefile):

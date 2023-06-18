@@ -1,10 +1,10 @@
-import configparser
-
 from PyQt5 import uic, QtWidgets, QtCore
 from UI.forms.add_Form import Ui_addForm
 from PyQt5.QtGui import QPixmap
 from API.yandex import *
 from PyQt5.QtCore import *
+import configparser
+import image_rc
 import json
 
 

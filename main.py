@@ -1,10 +1,8 @@
-from UI.UiM import UiM
 from PyQt5 import QtWidgets
+from UI.UiM import UiM
 import sys
+import image_rc
 
-"""Функция инициализации объекта приложения,
- создания объекта главного окна, его отображения
- и ожидание выхода из программы"""
 def main():
     app = QtWidgets.QApplication(sys.argv)
     mwa = UiM()
@@ -12,6 +10,5 @@ def main():
     sys.exit(app.exec_())
 
 
-#  Точка входа в программу
 if __name__ == "__main__":
     main()

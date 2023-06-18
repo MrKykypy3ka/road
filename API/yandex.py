@@ -1,5 +1,3 @@
-import json
-
 import requests
 import shutil
 from PIL import Image, ImageDraw
@@ -19,7 +17,7 @@ def get_map(longitude, latitude, map_parameters, scale, longitude_spn=0.005, lat
             shutil.copyfileobj(question.raw, out_file)
         draw_dot(name)
     except:
-        print(print("Ошибка запроса"))
+        print("Ошибка запроса")
 
 
 def get_city(city):

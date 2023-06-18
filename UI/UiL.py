@@ -1,12 +1,11 @@
-import datetime
-import os
-
-from PyQt5 import uic, QtWidgets
-from PyQt5.QtWidgets import QInputDialog, QLineEdit
+from PyQt5.QtWidgets import QInputDialog, QLineEdit, QFileDialog
 from UI.forms.list_form import Ui_listForm
+from PyQt5 import uic, QtWidgets
 from PyQt5.QtCore import *
 from UI.UiA import UiA
+import datetime
 import json
+import image_rc
 
 Form, Window = uic.loadUiType("UI/forms/list_form.ui")
 
@@ -99,18 +98,16 @@ class UiL(QtWidgets.QDialog, Form):
                 self.uil.groupList.addItem(key)
 
     def save(self):
-        text, ok = QInputDialog().getText(self,
-                                          "Сохранение",
-                                          "Имя конфигурации:",
-                                          QLineEdit.Normal,
-                                          text=os.path.basename(self.filename)[:-5])
-        if ok and text:
-            self.filename = text
-            self.data[f"settings"] = {
-                "date": [self.uil.dateEdit.text(), self.uil.dateEdit.text()],
-                "time": [self.uil.timeList.item(i).text() for i in range(self.uil.timeList.count())]}
-            with open(f'data/result/{self.filename}.json', "w", encoding='utf-8') as file:
-                json.dump(self.data, file, separators=(', ', ': '), indent=4, ensure_ascii=True)
-            self.close()
-        else:
-            return
+        file_dialog = QFileDialog()
+        file_dialog.setDefaultSuffix('.json')
+        file_dialog.setAcceptMode(QFileDialog.AcceptSave)
+        file_dialog.setNameFilter('JSON File (*.json)')
+        file_dialog.setWindowTitle('Сохранить конфигурацию')
+        file_dialog.setDirectory('data/result/')
+        file_dialog.selectFile(self.filename)
+        if file_dialog.exec_() == QFileDialog.Accepted:
+            file_path = file_dialog.selectedFiles()[0]
+            if file_path:
+                with open(file_path, 'w') as json_file:
+                    json.dump(self.data, json_file, indent=4)
+                self.close()
