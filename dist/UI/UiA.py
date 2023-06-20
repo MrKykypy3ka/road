@@ -1,10 +1,10 @@
-import configparser
-
 from PyQt5 import uic, QtWidgets, QtCore
 from UI.forms.add_Form import Ui_addForm
 from PyQt5.QtGui import QPixmap
 from API.yandex import *
 from PyQt5.QtCore import *
+import configparser
+import image_rc
 import json
 
 
@@ -88,7 +88,6 @@ class UiA(QtWidgets.QDialog, Form):
     def map_click(self):
         self.x = -(325 - self.pos_x)
         self.y = 225 - self.pos_y
-
         self.new_longitude = round(float(self.uia.longitudeEdit.text()) + self.x * self.kx, 6)
         self.new_latitude = round(float(self.uia.latitudeEdit.text()) + self.y * self.ky, 6)
         self.center = str(self.new_longitude) + " " + str(self.new_latitude)
@@ -114,21 +113,6 @@ class UiA(QtWidgets.QDialog, Form):
                 self.uia.groupList.addItem(group)
         self.show()
 
-    @QtCore.pyqtSlot(QtCore.QPoint)
-    def on_positionChanged(self, pos):
-        delta = QtCore.QPoint(-15, 320)
-        self.uia.coor.move(pos + delta)
-        self.uia.coor.adjustSize()
-
-        self.pos_x = pos.x()
-        self.pos_y = pos.y()
-
-        self.x = -(325 - pos.x())
-        self.y = 225 - pos.y()
-
-        self.uia.coor.setText(f"{round(float(self.uia.longitudeEdit.text()) + self.x * self.kx, 6)}\n"
-                              f"{round(float(self.uia.latitudeEdit.text()) + self.y * self.ky, 6)}")
-
     def show_badRoad(self):
         self.new_longitude, self.new_latitude = list(map(float, self.uia.badRoadList.currentIndex().data().split()))
         self.load_map()
@@ -152,6 +136,7 @@ class UiA(QtWidgets.QDialog, Form):
         self.uia.imageMap.setPixmap(QPixmap("data/result/map.png"))
 
     def add_bad_road(self):
+        self.uia.badRoadList.setStyleSheet('QListWidget { background-color: #FFFFFF; }')
         self.uia.badRoadList.addItem(f"{self.center}")
         self.data['bad'].append(f"{self.center}")
         self.load_map()
@@ -180,9 +165,11 @@ class UiA(QtWidgets.QDialog, Form):
             self.edit_name = False
             self.uia.roadList.clear()
             self.uia.groupList.setEnabled(True)
+            self.uia.groupList.setStyleSheet('QListWidget { background-color: #FFFFFF; }')
 
     def del_bad_road(self):
         if self.uia.badRoadList.currentIndex().data() is not None:
+            self.data['bad'].remove(self.uia.badRoadList.currentItem().text())
             self.uia.badRoadList.takeItem(self.uia.badRoadList.currentRow())
 
     def del_road(self):
@@ -195,5 +182,25 @@ class UiA(QtWidgets.QDialog, Form):
             self.uia.groupList.takeItem(self.uia.groupList.currentRow())
 
     def save(self):
-        self.closed.emit(self.data)
-        self.close()
+        if self.uia.badRoadList.count() == 0:
+            self.uia.badRoadList.setStyleSheet('QListWidget { background-color: #FF7E7E; }')
+        elif self.uia.groupList.count() == 0:
+            self.uia.groupList.setStyleSheet('QListWidget { background-color: #FF7E7E; }')
+        else:
+            self.closed.emit(self.data)
+            self.close()
+
+    @QtCore.pyqtSlot(QtCore.QPoint)
+    def on_positionChanged(self, pos):
+        delta = QtCore.QPoint(-15, 320)
+        self.uia.coor.move(pos + delta)
+        self.uia.coor.adjustSize()
+
+        self.pos_x = pos.x()
+        self.pos_y = pos.y()
+
+        self.x = -(325 - pos.x())
+        self.y = 225 - pos.y()
+
+        self.uia.coor.setText(f"{round(float(self.uia.longitudeEdit.text()) + self.x * self.kx, 6)}\n"
+                              f"{round(float(self.uia.latitudeEdit.text()) + self.y * self.ky, 6)}")

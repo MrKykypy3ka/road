@@ -5,6 +5,7 @@ from PyQt5.QtCore import *
 from UI.UiA import UiA
 import datetime
 import json
+import image_rc
 
 Form, Window = uic.loadUiType("UI/forms/list_form.ui")
 
@@ -40,6 +41,7 @@ class UiL(QtWidgets.QDialog, Form):
 
     def add_time(self):
         self.uil.timeList.addItem(self.uil.timeEdit.text())
+        self.uil.timeList.setStyleSheet('QListWidget { background-color: #FFFFFF; }')
 
     def rename_area(self):
         text, ok = QInputDialog().getText(self, "Переименовать", "Имя участка:", QLineEdit.Normal, "")
@@ -52,12 +54,8 @@ class UiL(QtWidgets.QDialog, Form):
             return
 
     def add_area(self):
-        self.count_area += 1
-        self.data[f"area {self.count_area}"] = dict()
-        self.uil.groupList.addItem(f"area {self.count_area}")
         addForm = UiA(self)
         addForm.closed.connect(self.closed_addForm)
-        self.current_area = f"area {self.count_area}"
         addForm.show()
         addForm.exec_()
 
@@ -78,7 +76,13 @@ class UiL(QtWidgets.QDialog, Form):
             self.uil.timeList.takeItem(self.uil.timeList.currentRow())
 
     def closed_addForm(self, text):
-        self.data[self.current_area] = text
+        if text and not self.current_area:
+            self.count_area += 1
+            self.data[f"area {self.count_area}"] = dict()
+            self.uil.groupList.addItem(f"area {self.count_area}")
+            self.current_area = f"area {self.count_area}"
+            self.data[self.current_area] = text
+            self.uil.groupList.setStyleSheet('QListWidget { background-color: #FFFFFF; }')
 
     def load_data(self, filename):
         self.filename = filename
@@ -97,16 +101,21 @@ class UiL(QtWidgets.QDialog, Form):
                 self.uil.groupList.addItem(key)
 
     def save(self):
-        file_dialog = QFileDialog()
-        file_dialog.setDefaultSuffix('.json')
-        file_dialog.setAcceptMode(QFileDialog.AcceptSave)
-        file_dialog.setNameFilter('JSON File (*.json)')
-        file_dialog.setWindowTitle('Сохранить конфигурацию')
-        file_dialog.setDirectory('data/result/')
-        file_dialog.selectFile(self.filename)
-        if file_dialog.exec_() == QFileDialog.Accepted:
-            file_path = file_dialog.selectedFiles()[0]
-            if file_path:
-                with open(file_path, 'w') as json_file:
-                    json.dump(self.data, json_file, indent=4)
-                self.close()
+        if self.uil.timeList.count() == 0:
+            self.uil.timeList.setStyleSheet('QListWidget { background-color: #FF7E7E; }')
+        elif self.uil.groupList.count() == 0:
+            self.uil.groupList.setStyleSheet('QListWidget { background-color: #FF7E7E; }')
+        else:
+            file_dialog = QFileDialog()
+            file_dialog.setDefaultSuffix('.json')
+            file_dialog.setAcceptMode(QFileDialog.AcceptSave)
+            file_dialog.setNameFilter('JSON File (*.json)')
+            file_dialog.setWindowTitle('Сохранить конфигурацию')
+            file_dialog.setDirectory('data/result/')
+            file_dialog.selectFile(self.filename)
+            if file_dialog.exec_() == QFileDialog.Accepted:
+                file_path = file_dialog.selectedFiles()[0]
+                if file_path:
+                    with open(file_path, 'w') as json_file:
+                        json.dump(self.data, json_file, indent=4)
+                    self.close()

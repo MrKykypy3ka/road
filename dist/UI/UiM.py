@@ -6,6 +6,7 @@ from PyQt5.QtGui import QIcon
 from socket_client import *
 from UI.UiL import UiL
 import configparser
+import image_rc
 
 load_dotenv(find_dotenv())
 Form, Window = uic.loadUiType("UI/forms/main_form.ui")
