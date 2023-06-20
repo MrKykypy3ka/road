@@ -88,7 +88,6 @@ class UiL(QtWidgets.QDialog, Form):
         self.filename = filename
         with open(filename) as file:
             self.data = json.load(file)
-        self.show()
         for key in self.data:
             if key == 'settings':
                 d, m, y = map(int, self.data[key]['date'][0].split('.'))
@@ -96,9 +95,11 @@ class UiL(QtWidgets.QDialog, Form):
                 d, m, y = map(int, self.data[key]['date'][1].split('.'))
                 self.uil.dateEdit_2.setDate(QDate(y, m, d))
                 for elem in self.data[key]['time']:
+                    print(elem)
                     self.uil.timeList.addItem(elem)
             else:
                 self.uil.groupList.addItem(key)
+        self.show()
 
     def save(self):
         if self.uil.timeList.count() == 0:
@@ -115,6 +116,9 @@ class UiL(QtWidgets.QDialog, Form):
             file_dialog.selectFile(self.filename)
             if file_dialog.exec_() == QFileDialog.Accepted:
                 file_path = file_dialog.selectedFiles()[0]
+                self.data[f"settings"] = {
+                    "date": [self.uil.dateEdit.text(), self.uil.dateEdit_2.text()],
+                    "time": [self.uil.timeList.item(i).text() for i in range(self.uil.timeList.count())]}
                 if file_path:
                     with open(file_path, 'w') as json_file:
                         json.dump(self.data, json_file, indent=4)
