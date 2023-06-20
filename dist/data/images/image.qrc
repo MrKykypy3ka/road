@@ -1,9 +1,0 @@
-<RCC>
-  <qresource prefix="icons">
-    <file>ico.ico</file>
-    <file>point1.png</file>
-    <file>b.jpg</file>
-    <file>que.png</file>
-    <file>settings.png</file>
-  </qresource>
-</RCC>

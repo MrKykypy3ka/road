@@ -40,8 +40,8 @@ class UiL(QtWidgets.QDialog, Form):
 
 
     def add_time(self):
-        if self.uil.timeEdit.text() not in [self.uil.timeList.item(i).text() for i in range(self.uil.timeList.count())]:
-            self.uil.timeList.addItem(self.uil.timeEdit.text())
+        if self.uil.timeEdit.time().toString("HH:mm") not in [self.uil.timeList.item(i).text() for i in range(self.uil.timeList.count())]:
+            self.uil.timeList.addItem(self.uil.timeEdit.time().toString("HH:mm"))
             self.uil.timeList.setStyleSheet('QListWidget { background-color: #FFFFFF; }')
 
     def rename_area(self):
@@ -100,6 +100,7 @@ class UiL(QtWidgets.QDialog, Form):
                     self.uil.timeList.addItem(elem)
             else:
                 self.uil.groupList.addItem(key)
+        self.count_area = len(self.data) - 1
         self.show()
 
     def save(self):
