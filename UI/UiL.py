@@ -40,12 +40,13 @@ class UiL(QtWidgets.QDialog, Form):
 
 
     def add_time(self):
-        self.uil.timeList.addItem(self.uil.timeEdit.text())
-        self.uil.timeList.setStyleSheet('QListWidget { background-color: #FFFFFF; }')
+        if self.uil.timeEdit.text() not in [self.uil.timeList.item(i).text() for i in range(self.uil.timeList.count())]:
+            self.uil.timeList.addItem(self.uil.timeEdit.text())
+            self.uil.timeList.setStyleSheet('QListWidget { background-color: #FFFFFF; }')
 
     def rename_area(self):
         text, ok = QInputDialog().getText(self, "Переименовать", "Имя участка:", QLineEdit.Normal, "")
-        if ok and text:
+        if ok and text and text not in [self.uil.groupList.item(i).text() for i in range(self.uil.groupList.count())]:
             self.data[text] = self.data[self.uil.groupList.currentItem().text()]
             del self.data[self.uil.groupList.currentItem().text()]
             item_to_rename = self.uil.groupList.item(self.uil.groupList.currentRow())
