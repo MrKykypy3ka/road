@@ -66,6 +66,7 @@ class UiA(QtWidgets.QDialog, Form):
         self.uia.badRoadList.itemDoubleClicked.connect(self.show_badRoad)
         self.uia.roadList.itemDoubleClicked.connect(self.show_road)
         self.uia.groupEdit.textChanged.connect(self.change_color)
+        self.uia.koef.textChanged.connect(self.change_color)
         self.uia.comboBox.currentIndexChanged.connect(self.change_view_map)
         self.uia.saveButton.clicked.connect(self.save)
         self.uia.imageMap.setCursor(QtCore.Qt.CrossCursor)
@@ -95,6 +96,7 @@ class UiA(QtWidgets.QDialog, Form):
 
     def change_color(self):
         self.uia.groupEdit.setStyleSheet('QLineEdit { background-color: #FFFFFF; }')
+        self.uia.koef.setStyleSheet('QLineEdit { background-color: #FFFFFF; }')
 
     def showEvent(self, event):
         self.new_longitude = self.uia.longitudeEdit.text()
@@ -128,6 +130,7 @@ class UiA(QtWidgets.QDialog, Form):
         self.uia.koef.setText(str(self.data['k'][self.uia.groupList.currentItem().text()]))
         self.edit_name = True
         self.uia.groupList.setEnabled(False)
+        self.uia.saveButton.setEnabled(False)
 
     def load_map(self):
         self.uia.longitudeEdit.setText(f"{self.new_longitude}")
@@ -151,6 +154,8 @@ class UiA(QtWidgets.QDialog, Form):
             self.uia.roadList.setStyleSheet('QListWidget { background-color: #FF7E7E; }')
         elif self.uia.groupEdit.text() == "":
             self.uia.groupEdit.setStyleSheet('QLineEdit { background-color: #FF7E7E; }')
+        elif self.uia.koef.text() == "":
+            self.uia.koef.setStyleSheet('QLineEdit { background-color: #FF7E7E; }')
         else:
             if self.edit_name:
                 item_to_rename = self.uia.groupList.item(self.uia.groupList.currentRow())
@@ -165,6 +170,7 @@ class UiA(QtWidgets.QDialog, Form):
             self.edit_name = False
             self.uia.roadList.clear()
             self.uia.groupList.setEnabled(True)
+            self.uia.saveButton.setEnabled(True)
             self.uia.groupList.setStyleSheet('QListWidget { background-color: #FFFFFF; }')
 
     def del_bad_road(self):

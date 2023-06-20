@@ -1,3 +1,5 @@
+import os
+
 from PyQt5.QtWidgets import QInputDialog, QLineEdit, QFileDialog
 from UI.forms.list_form import Ui_listForm
 from PyQt5 import uic, QtWidgets
@@ -96,7 +98,6 @@ class UiL(QtWidgets.QDialog, Form):
                 d, m, y = map(int, self.data[key]['date'][1].split('.'))
                 self.uil.dateEdit_2.setDate(QDate(y, m, d))
                 for elem in self.data[key]['time']:
-                    print(elem)
                     self.uil.timeList.addItem(elem)
             else:
                 self.uil.groupList.addItem(key)
@@ -124,4 +125,5 @@ class UiL(QtWidgets.QDialog, Form):
                 if file_path:
                     with open(file_path, 'w') as json_file:
                         json.dump(self.data, json_file, indent=4)
+                    os.remove(f'data/result/map.png')
                     self.close()
